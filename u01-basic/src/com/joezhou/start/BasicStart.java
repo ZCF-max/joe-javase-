@@ -5,6 +5,6 @@ package com.joezhou.start;
  */
 public class BasicStart {
     public static void main(String[] args) {
-        System.out.println("HelloWorld!");
+        System.out.println("basicStart!");
     }
 }
