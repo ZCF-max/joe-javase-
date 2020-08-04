@@ -1,9 +1,9 @@
 package com.joezhou.io;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
@@ -12,29 +12,49 @@ import java.io.RandomAccessFile;
  */
 public class RandomAccessFileTest {
 
+    private RandomAccessFile randomAccessFile;
+
+    @Before
+    public void before() throws IOException {
+        randomAccessFile = new RandomAccessFile("D:\\java\\io\\emp.txt", "rw");
+        randomAccessFile.writeUTF("赵四");
+        randomAccessFile.writeInt(18);
+        randomAccessFile.writeUTF("刘能");
+        randomAccessFile.writeInt(28);
+        randomAccessFile.writeUTF("广坤");
+        randomAccessFile.writeInt(38);
+    }
+
+    @After
+    public void after() throws IOException {
+        randomAccessFile.close();
+    }
+
     @Test
-    public void writeAndRead() {
-        String name = "D:\\java\\io\\emp.txt";
-        try (RandomAccessFile raf = new RandomAccessFile(name, "rw")) {
-            raf.writeUTF("赵四");
-            raf.writeInt(18);
-            raf.writeUTF("刘能");
-            raf.writeInt(28);
-            raf.writeUTF("广坤");
-            raf.writeInt(38);
+    public void write() throws IOException {
 
-            // 位置指示器重置于0号位
-            raf.seek(0);
-            System.out.print(raf.readUTF() + "\t");
+        // 位置指示器重置于0号位
+        randomAccessFile.seek(0);
+        System.out.print(randomAccessFile.readUTF() + "\t");
 
-            // 跳过赵四的年龄
-            raf.skipBytes(4);
-            System.out.print(raf.readUTF() + "\t");
-            System.out.print(raf.readInt() + "\t");
-            System.out.print(raf.readUTF() + "\t");
-            System.out.print(raf.readInt() + "\n");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // 跳过赵四的年龄
+        randomAccessFile.skipBytes(4);
+        System.out.print(randomAccessFile.readUTF() + "\t");
+        System.out.print(randomAccessFile.readInt() + "\t");
+        System.out.print(randomAccessFile.readUTF() + "\t");
+        System.out.print(randomAccessFile.readInt() + "\n");
+    }
+
+    @Test
+    public void work01() throws IOException {
+        randomAccessFile.seek(24);
+        System.out.print(randomAccessFile.readUTF() + "\t");
+        System.out.print(randomAccessFile.readInt() + "\t");
+        randomAccessFile.seek(12);
+        System.out.print(randomAccessFile.readUTF() + "\t");
+        System.out.print(randomAccessFile.readInt() + "\t");
+        randomAccessFile.seek(0);
+        System.out.print(randomAccessFile.readUTF() + "\t");
+        System.out.print(randomAccessFile.readInt() + "\n");
     }
 }
