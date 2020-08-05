@@ -17,13 +17,13 @@ public class FileTest {
 
     @Before
     public void before() throws IOException {
-        String pathDirs = "D:\\java\\io";
-        File dirs = new File(pathDirs);
+        String dirPath = "D:" + File.separator + "java-io";
+        File dirs = new File(dirPath);
         if (!dirs.exists()) {
             System.out.println(dirs.mkdirs() ? "目录创建成功" : "目录创建失败");
         }
-        String pathname = pathDirs + "\\start.txt";
-        this.file = new File(pathname);
+        String filePath = "start.txt";
+        this.file = new File(dirPath, filePath);
         if (this.file.exists()) {
             System.out.println(this.file.delete() ? "文件删除成功" : "文件删除失败");
         }
