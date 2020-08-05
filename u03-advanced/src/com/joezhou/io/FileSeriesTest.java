@@ -2,11 +2,7 @@ package com.joezhou.io;
 
 import org.junit.Test;
 
-import javax.xml.stream.FactoryConfigurationError;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 
 /**
  * @author JoeZhou
@@ -45,4 +41,32 @@ public class FileSeriesTest {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void fileReader() {
+        try (FileReader fr = new FileReader(filePath)) {
+            System.out.println(fr.getEncoding());
+            int b;
+            while ((b = fr.read()) != -1) {
+                System.out.print((char) b);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void fileWriter() {
+        String destPath = "D:" + File.separator + "java-io" + File.separator + "Unicode.dat";
+        try (FileWriter fw = new FileWriter(destPath)) {
+            int unicodeMaxLength = 65535;
+            for (int i = 0; i < unicodeMaxLength; i++) {
+                fw.write(i);
+            }
+            fw.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
