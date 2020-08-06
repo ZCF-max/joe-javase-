@@ -1,7 +1,5 @@
-package com.joezhou.test;
+package com.joezhou.member;
 
-import com.joezhou.member.FullSingleton;
-import com.joezhou.member.HungrySingleton;
 import org.junit.Test;
 
 /**
