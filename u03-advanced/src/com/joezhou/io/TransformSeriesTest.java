@@ -1,8 +1,8 @@
 package com.joezhou.io;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import org.junit.Test;
+
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -27,4 +27,28 @@ public class TransformSeriesTest {
     public static void main(String[] args) {
         inputStreamReader();
     }
+
+    @Test
+    public void outputStreamWriter() throws IOException {
+        String destPath = "D:" + File.separator + "java-io" + File.separator + "hello.txt";
+        OutputStreamWriter osw = null;
+        try {
+            FileOutputStream fos = new FileOutputStream(destPath);
+            osw = new OutputStreamWriter(fos);
+            osw.write("你好");
+            System.out.println(osw.getEncoding());
+            osw.flush();
+            osw = new OutputStreamWriter(fos, "GBK");
+            osw.write("世界");
+            System.out.println(osw.getEncoding());
+            osw.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (osw != null) {
+                osw.close();
+            }
+        }
+    }
+
 }
