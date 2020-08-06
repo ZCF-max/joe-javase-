@@ -13,15 +13,21 @@ public class DataSeriesTest {
     private String filePath = "D:" + File.separator + "java-io" + File.separator + "a.txt";
 
     @Test
-    public void dataInputStream() {
-        try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(filePath));
-             DataInputStream dis = new DataInputStream(new FileInputStream(filePath))) {
-
+    public void dataOutputStream() {
+        try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(filePath))) {
             dos.writeInt(250);
             dos.writeBoolean(true);
             dos.writeDouble(3.14);
             dos.flush();
+            System.out.println("write over...");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    @Test
+    public void dataInputStream() {
+        try (DataInputStream dis = new DataInputStream(new FileInputStream(filePath))) {
             System.out.println(dis.readInt());
             System.out.println(dis.readBoolean());
             System.out.println(dis.readDouble());
@@ -29,4 +35,6 @@ public class DataSeriesTest {
             e.printStackTrace();
         }
     }
+
+
 }
