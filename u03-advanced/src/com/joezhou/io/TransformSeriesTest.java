@@ -29,12 +29,12 @@ public class TransformSeriesTest {
     }
 
     @Test
-    public void outputStreamWriter() throws IOException {
+    public void outputStreamWriter() {
         String destPath = "D:" + File.separator + "java-io" + File.separator + "hello.txt";
         OutputStreamWriter osw = null;
         try {
             FileOutputStream fos = new FileOutputStream(destPath);
-            osw = new OutputStreamWriter(fos);
+            osw = new OutputStreamWriter(fos, "UTF-8");
             osw.write("你好");
             System.out.println(osw.getEncoding());
             osw.flush();
@@ -46,7 +46,11 @@ public class TransformSeriesTest {
             e.printStackTrace();
         } finally {
             if (osw != null) {
-                osw.close();
+                try {
+                    osw.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
