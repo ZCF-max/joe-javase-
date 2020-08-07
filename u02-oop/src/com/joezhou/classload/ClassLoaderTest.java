@@ -1,5 +1,8 @@
 package com.joezhou.classload;
 
+import java.util.Arrays;
+import java.util.Scanner;
+
 /**
  * @author JoeZhou
  */
@@ -9,7 +12,9 @@ public class ClassLoaderTest {
         System.out.println("main...");
         new ClassB();
         new ClassC(); new ClassC();
+        ClassD.a = "22";
         new ClassD(); new ClassD();
+        System.out.println(Scanner.class);
     }
 }
 class ClassA { }
@@ -18,5 +23,6 @@ class ClassC {
     static { System.out.println("classC-static-block..."); }
 }
 class ClassD {
-    { System.out.println("classD-dynamic-block..."); }
+    static String a;
+    static { System.out.println("classD-dynamic-block..."); }
 }
