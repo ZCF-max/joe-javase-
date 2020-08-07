@@ -17,7 +17,7 @@ public class SheepCloneTest {
         sheepA.name = "dorset";
         sheepA.birth = birth;
         Sheep sheepB = sheepA.shallowClone(sheepA);
-        System.out.println(sheepB);
+        sheepB.name = "dolly";
         birth.setTime(999999999999L);
     }
 
@@ -28,8 +28,8 @@ public class SheepCloneTest {
         sheepA.name = "dorset";
         sheepA.birth = birth;
         Sheep sheepB = sheepA.multipleShallowClone(sheepA);
+        sheepB.name = "dolly";
         birth.setTime(999999999999L);
-        System.out.println(sheepB);
     }
 
     @Test
@@ -41,6 +41,5 @@ public class SheepCloneTest {
         Sheep sheepB = sheepA.deepClone(sheepA);
         sheepB.name = "dolly";
         birth.setTime(999999999999L);
-        System.out.println(sheepB);
     }
 }
