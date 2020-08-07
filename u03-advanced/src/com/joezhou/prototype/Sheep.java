@@ -23,8 +23,7 @@ public class Sheep implements Cloneable {
         Sheep result = null;
         try {
             result = (Sheep) super.clone();
-            Date birth = (Date) result.birth.clone();
-            result.birth = birth;
+            result.birth = (Date) result.birth.clone();
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
