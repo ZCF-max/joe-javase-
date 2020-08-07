@@ -6,10 +6,10 @@ package com.joezhou.classload;
 public class ClassLoaderTest {
     public static void main(String[] args) {
         new ClassA();
-        System.out.println("--------------------");
+        System.out.println("main...");
         new ClassB();
         new ClassC(); new ClassC();
-        new ClassC(); new ClassC();
+        new ClassD(); new ClassD();
     }
 }
 class ClassA { }
@@ -18,5 +18,5 @@ class ClassC {
     static { System.out.println("classC-static-block..."); }
 }
 class ClassD {
-    { System.out.println("classC-dynamic-block..."); }
+    { System.out.println("classD-dynamic-block..."); }
 }
