@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * @author JoeZhou
  */
-public class Sheep implements Serializable {
+class Sheep implements Cloneable, Serializable {
     String name;
     Date birth;
 
@@ -31,7 +31,7 @@ public class Sheep implements Serializable {
         return result;
     }
 
-    public Sheep deepClone(Sheep sheep) {
+    Sheep deepClone(Sheep sheep) {
         Sheep result = null;
         ObjectOutputStream oos = null;
         ObjectInputStream ois = null;
