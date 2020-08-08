@@ -1,6 +1,5 @@
 package com.joezhou.classload;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -12,7 +11,6 @@ public class ClassLoaderTest {
         System.out.println("main...");
         new ClassB();
         new ClassC(); new ClassC();
-        ClassD.a = "22";
         new ClassD(); new ClassD();
         System.out.println(Scanner.class);
     }
@@ -23,6 +21,5 @@ class ClassC {
     static { System.out.println("classC-static-block..."); }
 }
 class ClassD {
-    static String a;
     static { System.out.println("classD-dynamic-block..."); }
 }
