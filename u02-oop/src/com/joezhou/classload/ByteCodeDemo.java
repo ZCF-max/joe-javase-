@@ -3,8 +3,9 @@ package com.joezhou.classload;
 /**
  * @author JoeZhou
  */
-public class ByteCodeTest {
+public class ByteCodeDemo {
     private int num;
+
     public int method() {
         return num++;
     }
