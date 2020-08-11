@@ -60,7 +60,7 @@
 0x39 | dstore      | 将栈项double型数值存入指定局部变量。
 0x3a | astore      | 将栈顶引用型数值存入指定局部变量。
 0x3b | istore_0    | 将栈顶int型数值存入第一个局部变量。
-0x3c | istore_i    | 将栈顶int型数值存入第一个局部变量。
+0x3c | istore_1    | 将栈顶int型数值存入第二个局部变量。
 0x3d | istore_2    | 将栈顶int型数值存入第三个局部变量。
 0x3e | istore_3    | 将栈项int型数值存入第四个局部变量。
 0x3f | lstore_0    | 将栈项long型数值存入第一个局部变量。
