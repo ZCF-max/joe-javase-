@@ -48,22 +48,22 @@
 0x2d | aload_3     | 将第四个引用类型局部变量推送至栈顶。
 0x2e | iaload      | 将int型数组指定索引的值推送至栈顶。
 0x2f | laload      | 将long型数组指定索引的值推送至栈顶。
-0x30 | faload      | 将 float 型数组指定索引的值推送至栈顶。
-0x31 | daload      | 将 double 型数组指定索引的值推送至栈顶。
+0x30 | faload      | 将float型数组指定索引的值推送至栈顶。
+0x31 | daload      | 将double型数组指定索引的值推送至栈顶。
 0x32 | aaload      | 将引用型数组指定索引的值推送至栈顶。
-0x33 | baload      | 将 boolean 或 byte 型数组指定索引的值推送至栈顶。
-0x34 | caload      | 将 char 型数组指定索引的值推送至栈顶。
-0x35 | saload      | 将 short 型数组指定索引的值推送至栈顶。
-0x36 | istore      | 将栈顶 int 型数值存入指定局部变量。
-0x37 | lstore      | 将栈项 long 型数值存入指定局部变量。
-0x38 | fstore      | 将栈顶 float 型数值存入指定局部变量。
-0x39 | dstore      | 将栈项 double 型数值存入指定局部变量。
+0x33 | baload      | 将boolean或byte型数组指定索引的值推送至栈顶。
+0x34 | caload      | 将char型数组指定索引的值推送至栈顶。
+0x35 | saload      | 将short型数组指定索引的值推送至栈顶。
+0x36 | istore      | 将栈顶int型数值存入指定局部变量。
+0x37 | lstore      | 将栈项long型数值存入指定局部变量。
+0x38 | fstore      | 将栈顶float型数值存入指定局部变量。
+0x39 | dstore      | 将栈项double型数值存入指定局部变量。
 0x3a | astore      | 将栈顶引用型数值存入指定局部变量。
-0x3b | istore_0    | 将栈顶 int 型数值存入第一个局部变量。
-0x3c | istore_i    | 将栈顶 int 型数值存入第一个局部变量。
-0x3d | istore_2    | 将栈顶 int 型数值存入第三个局部变量。
-0x3e | istore_3    | 将栈项 int 型数值存入第四个局部变量。
-0x3f | lstore_0    | 将栈项 long 型数值存入第一个局部变量。
+0x3b | istore_0    | 将栈顶int型数值存入第一个局部变量。
+0x3c | istore_i    | 将栈顶int型数值存入第一个局部变量。
+0x3d | istore_2    | 将栈顶int型数值存入第三个局部变量。
+0x3e | istore_3    | 将栈项int型数值存入第四个局部变量。
+0x3f | lstore_0    | 将栈项long型数值存入第一个局部变量。
 0x40 | lstore_1    | 将栈顶long型数值存入第二个局部变量。
 0x41 | lstore_2    | 将栈顶long型数值存入第三个局部变量。
 0x42 | lstore_3    | 将栈顶long型数值存入第四个局部变量。
