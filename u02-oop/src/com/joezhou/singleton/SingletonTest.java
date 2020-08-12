@@ -1,4 +1,4 @@
-package com.joezhou.member;
+package com.joezhou.singleton;
 
 import org.junit.Test;
 

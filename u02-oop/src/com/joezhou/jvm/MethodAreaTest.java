@@ -1,4 +1,4 @@
-package com.joezhou.classload;
+package com.joezhou.jvm;
 
 import org.junit.Test;
 
@@ -25,7 +25,7 @@ public class MethodAreaTest {
         System.out.println(a == b);
         System.out.println(b == c);
     }
-    
+
     @Test
     public void work02() {
         Integer a = 1;
