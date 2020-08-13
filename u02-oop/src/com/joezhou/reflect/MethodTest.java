@@ -44,18 +44,18 @@ public class MethodTest {
         System.out.println(klass.getDeclaredMethod("methodB"));
     }
 
-	@Test
-	public void usePublicMethod() throws Exception {
-		Object instanceA = klass.getDeclaredConstructor().newInstance();
-		Method methodA = klass.getMethod("methodA", String.class, int.class);
-		methodA.invoke(instanceA, "赵四", 58);
-	}
+    @Test
+    public void usePublicMethod() throws Exception {
+        Object instanceA = klass.getDeclaredConstructor().newInstance();
+        Method methodA = klass.getMethod("methodA", String.class, int.class);
+        methodA.invoke(instanceA, "赵四", 58);
+    }
 
-	@Test
-	public void usePrivateMethod() throws Exception {
-		Object instanceA = klass.getDeclaredConstructor().newInstance();
-		Method methodB = klass.getDeclaredMethod("methodB");
-		methodB.setAccessible(true);
-		methodB.invoke(instanceA);
-	}
+    @Test
+    public void usePrivateMethod() throws Exception {
+        Object instanceA = klass.getDeclaredConstructor().newInstance();
+        Method methodB = klass.getDeclaredMethod("methodB");
+        methodB.setAccessible(true);
+        methodB.invoke(instanceA);
+    }
 }

@@ -9,9 +9,12 @@ import java.util.Arrays;
  * @author JoeZhou
  */
 public class FieldTest {
-    private Class<?> klass = FieldTest.class;
-    public String name;
-    private int gender = 0;
+    private Class<?> klass = Demo.class;
+
+    static class Demo{
+        public String name;
+        private int gender = 0;
+    }
 
     @Test
     public void reflectFieldsOnlyPublic() {
