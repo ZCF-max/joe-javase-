@@ -11,12 +11,22 @@ import java.util.Arrays;
  */
 public class ConstructorTest {
 
-    private Class<?> klass;
+    static class Demo {
 
-    @Before
-    public void before() {
-        klass = Demo.class;
+        public Demo(int num, String str) {
+            System.out.println("public constructor...");
+        }
+
+        private Demo() {
+            System.out.println("private constructor...");
+        }
+
+        public void sayHello() {
+            System.out.println("hello!");
+        }
     }
+
+    private Class<?> klass = Demo.class;
 
     @Test
     public void reflectConstructorsOnlyPublic() {
@@ -34,42 +44,31 @@ public class ConstructorTest {
 
     @Test
     public void reflectConstructorOnlyPublic() throws Exception {
-        System.out.println(klass.getConstructor());
-        System.out.println(klass.getConstructor(String.class));
+        System.out.println(klass.getConstructor(int.class, String.class));
     }
 
     @Test
     public void reflectConstructor() throws Exception {
+        System.out.println(klass.getDeclaredConstructor(int.class, String.class));
         System.out.println(klass.getDeclaredConstructor());
-        System.out.println(klass.getDeclaredConstructor(int.class));
-        System.out.println(klass.getDeclaredConstructor(String.class));
-        System.out.println(klass.getDeclaredConstructor(Double.class));
-        System.out.println(klass.getDeclaredConstructor(Float.class));
     }
+
+
+    @Test
+    public void usePublicConstructor() throws Exception {
+        Constructor<?> constructor = klass.getConstructor(int.class, String.class);
+        // Demo demo = new Demo(10, "hello");
+        Demo demo = (Demo) constructor.newInstance(10, "hello");
+        demo.sayHello();
+    }
+
+    @Test
+    public void usePrivateConstructor() throws Exception {
+        Constructor<?> constructor = klass.getDeclaredConstructor();
+        constructor.setAccessible(true);
+        Demo demo = (Demo) constructor.newInstance();
+        demo.sayHello();
+    }
+
 }
 
-class Demo {
-    public Demo() {
-        System.out.println("public + ()：");
-    }
-
-    public Demo(String str) {
-        System.out.println("public + (String)：" + str);
-    }
-
-    private Demo(int num) {
-        System.out.println("private + (int)：" + num);
-    }
-
-    Demo(Double dbl) {
-        System.out.println("(Double)：" + dbl);
-    }
-
-    protected Demo(Float flt) {
-        System.out.println("protected  + (Float)：" + flt);
-    }
-
-    public void sayHello() {
-        System.out.println("hello!");
-    }
-}
