@@ -28,7 +28,7 @@ public class BitSetTest {
         int[] holidays = {1, 15, 50, 148, 185, 246, 281, 316, 326, 359};
         for (int holiday : holidays) {
             bitSet.set(holiday);
-        }
+        };
         System.out.println(bitSet.get(1) ? "is holiday" : "is not holiday");
         System.out.println(bitSet.get(2) ? "is holiday" : "is not holiday");
     }
