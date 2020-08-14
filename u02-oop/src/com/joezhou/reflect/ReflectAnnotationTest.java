@@ -2,9 +2,7 @@ package com.joezhou.reflect;
 
 import org.junit.Test;
 
-import javax.sound.midi.Soundbank;
 import java.lang.annotation.*;
-import java.lang.reflect.Method;
 import java.util.Arrays;
 
 /**
