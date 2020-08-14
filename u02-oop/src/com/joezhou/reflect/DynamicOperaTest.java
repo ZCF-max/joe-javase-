@@ -16,10 +16,10 @@ public class DynamicOperaTest {
 
     @Test
     public void dynamicCompile() {
-        JavaCompiler javac = ToolProvider.getSystemJavaCompiler();
+        JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         String filePath = "D:" + File.separator + "HelloWorld.java";
-        int result = javac.run(null, null, null, filePath);
-        System.out.println(result == 0 ? "javac success" : "javac success");
+        int result = compiler.run(null, null, null, filePath);
+        System.out.println(result == 0 ? "compile success" : "compile fail");
     }
 
     @Test
