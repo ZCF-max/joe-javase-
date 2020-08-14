@@ -2,13 +2,16 @@ package com.joezhou.reflect;
 
 import org.junit.Test;
 
+import javax.sound.midi.Soundbank;
 import java.lang.annotation.*;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 
 /**
  * @author JoeZhou
  */
 public class ReflectAnnotationTest {
+
     @Documented
     @Target({ElementType.TYPE, ElementType.METHOD})
     @Retention(value = RetentionPolicy.RUNTIME)
@@ -22,6 +25,7 @@ public class ReflectAnnotationTest {
 
     @MyAnnotation(name = "赵四")
     static class Student {
+
         @MyAnnotation(name = "刘能")
         public void method() {
         }
@@ -29,8 +33,8 @@ public class ReflectAnnotationTest {
 
     @Test
     public void reflectAnnotation() {
-        Class klass = Student.class;
-        MyAnnotation annotation = (MyAnnotation) klass.getDeclaredAnnotation(MyAnnotation.class);
+        Class<?> klass = Student.class;
+        MyAnnotation annotation = klass.getDeclaredAnnotation(MyAnnotation.class);
         System.out.println(annotation.age());
         System.out.println(annotation.name());
         System.out.println(Arrays.toString(annotation.course()));
