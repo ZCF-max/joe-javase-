@@ -29,30 +29,12 @@ public class ConstructorTest {
     private Class<?> klass = Demo.class;
 
     @Test
-    public void reflectConstructorsOnlyPublic() {
-        for (Constructor<?> constructor : klass.getConstructors()) {
-            System.out.println(constructor);
-        }
-    }
-
-    @Test
-    public void reflectConstructors() {
-        for (Constructor<?> constructor : klass.getDeclaredConstructors()) {
-            System.out.println(constructor);
-        }
-    }
-
-    @Test
-    public void reflectConstructorOnlyPublic() throws Exception {
+    public void reflectConstructor() throws NoSuchMethodException {
+        System.out.println(Arrays.toString(klass.getConstructors()));
+        System.out.println(Arrays.toString(klass.getDeclaredConstructors()));
         System.out.println(klass.getConstructor(int.class, String.class));
-    }
-
-    @Test
-    public void reflectConstructor() throws Exception {
-        System.out.println(klass.getDeclaredConstructor(int.class, String.class));
         System.out.println(klass.getDeclaredConstructor());
     }
-
 
     @Test
     public void usePublicConstructor() throws Exception {
