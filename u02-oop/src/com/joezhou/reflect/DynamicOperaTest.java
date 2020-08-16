@@ -28,8 +28,11 @@ public class DynamicOperaTest {
         URLClassLoader urlClassLoader = new URLClassLoader(new URL[]{url});
         Class<?> klass = urlClassLoader.loadClass("HelloWorld");
         Method method = klass.getMethod("main", String[].class);
-        // main() is static, so p1 of invoke() must be null
-        // 这里必须强转成Object类型，否则String[]数组参数会被拆成"a"和"b",与main方法的参数个数不符合
+        /*
+            Use `Object` instead of `String[]`
+            Because `new String[]{"a", "b"}` will be split into two parameters: "a" and "b"
+            The two parameters are wrong for main()
+        */
         method.invoke(null, (Object) new String[]{"a", "b"});
         urlClassLoader.close();
     }
