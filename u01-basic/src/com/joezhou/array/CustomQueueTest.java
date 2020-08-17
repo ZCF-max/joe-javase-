@@ -7,42 +7,38 @@ import org.junit.Test;
  */
 public class CustomQueueTest {
 
-    private int[] arr = new int[0];
+    private int[] arr = {1, 2, 3};
 
-    private boolean add(int element) {
-        int[] arrBack = arr;
+    @Test
+    public void add() {
+        int element = 10;
         int[] newArr = new int[arr.length + 1];
         for (int i = 0, j = arr.length; i < j; i++) {
             newArr[i] = arr[i];
         }
         newArr[arr.length] = element;
         arr = newArr;
-        return arrBack.length != arr.length;
+        for (int e : arr) {
+            System.out.print(e + "\t");
+        }
     }
 
-    private Integer poll() {
-        if (arr.length <= 0) {
-            return null;
-        }
+    @Test
+    public void poll() {
         int firstElement = arr[0];
         int[] newArr = new int[arr.length - 1];
         for (int i = 0, j = newArr.length; i < j; i++) {
             newArr[i] = arr[i + 1];
         }
         arr = newArr;
-        return firstElement;
-    }
-
-    private Integer peek() {
-        return arr.length <= 0 ? null : arr[0];
+        System.out.println("poll: " + firstElement);
+        for (int e : arr) {
+            System.out.print(e + "\t");
+        }
     }
 
     @Test
-    public void api() {
-        System.out.println(add(10) ? "add success" : "add fail");
-        System.out.println(add(20) ? "add success" : "add fail");
-        System.out.println(add(30) ? "add success" : "add fail");
-        System.out.println("poll: " + poll());
-        System.out.println("peek: " + peek());
+    public void peek() {
+        System.out.println(arr.length <= 0 ? null : arr[0]);
     }
 }

@@ -9,44 +9,38 @@ import java.util.EmptyStackException;
  */
 public class CustomStackTest {
 
-    private int[] arr = new int[0];
+    private int[] arr = {1, 2, 3};
 
-    private int push(int element) {
+    @Test
+    public void push() {
+        int element = 10;
         int[] newArr = new int[arr.length + 1];
         for (int i = 0, j = arr.length; i < j; i++) {
             newArr[i] = arr[i];
         }
         newArr[arr.length] = element;
         arr = newArr;
-        return element;
+        for (int e : arr) {
+            System.out.print(e + "\t");
+        }
     }
 
-    private int pop() {
-        if (arr.length == 0) {
-            throw new EmptyStackException();
-        }
+    @Test
+    public void pop() {
         int lastElement = arr[arr.length - 1];
         int[] newArr = new int[arr.length - 1];
         for (int i = 0, j = newArr.length; i < j; i++) {
             newArr[i] = arr[i];
         }
         arr = newArr;
-        return lastElement;
-    }
-
-    private int peek() {
-        if (arr.length == 0) {
-            throw new EmptyStackException();
+        System.out.println("pop: " + lastElement);
+        for (int e : arr) {
+            System.out.print(e + "\t");
         }
-        return arr[arr.length - 1];
     }
 
     @Test
-    public void api() {
-        push(10);
-        push(20);
-        push(30);
-        System.out.println("peek:" + peek());
-        System.out.println("pop:" + pop());
+    public void peek() {
+        System.out.println(arr[arr.length - 1]);
     }
 }
