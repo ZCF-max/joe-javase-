@@ -10,6 +10,30 @@ import java.io.*;
 public class ObjectSeriesTest {
     private String filePath = "D:" + File.separator + "java-io" + File.separator + "object.txt";
 
+    private static class Student implements Serializable {
+        private String name;
+        private transient Integer age;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public Integer getAge() {
+            return age;
+        }
+
+        public void setAge(Integer age) {
+            this.age = age;
+        }
+    }
+
+    /**
+     * 将 `Student.java` 写入 `object.txt` 文件中
+     */
 	@Test
 	public void objectOutputStream() {
 		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filePath))) {
@@ -24,6 +48,9 @@ public class ObjectSeriesTest {
 		}
 	}
 
+    /**
+     * 将 `Student.java` 从 `object.txt` 文件中读取出来
+     */
     @Test
     public void objectInputStream() {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath))) {
@@ -37,23 +64,3 @@ public class ObjectSeriesTest {
 
 }
 
-class Student implements Serializable {
-    private String name;
-    private transient Integer age;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-}

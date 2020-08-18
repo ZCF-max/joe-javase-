@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 
 /**
+ * 使用同一个RandomAccessFile对象对一个文件完成
+ * 三个员工信息（姓名和年龄）的按顺序写和按顺序读，且在输出过程种，跳过赵四的年龄。
+ *
  * @author JoeZhou
  */
 public class RandomAccessFileTest {

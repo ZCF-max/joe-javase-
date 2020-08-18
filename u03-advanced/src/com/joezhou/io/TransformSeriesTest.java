@@ -9,6 +9,7 @@ import java.nio.charset.StandardCharsets;
  * @author JoeZhou
  */
 public class TransformSeriesTest {
+
     private static void inputStreamReader() {
         // System.in is typeof InputStream
         try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
@@ -24,10 +25,17 @@ public class TransformSeriesTest {
         }
     }
 
+    /**
+     * 设计模拟Scanner读取控制台信息的方法，要求输入 `exit` 时可以退出。
+     * IDEA中的Junit和System.in或者Scanner有冲突，需要换成main方法测试
+     */
     public static void main(String[] args) {
         inputStreamReader();
     }
 
+    /**
+     * 向文件中写入一个UTF8的 "你好" 和一个 GBK的 "世界"
+     */
     @Test
     public void outputStreamWriter() {
         String destPath = "D:" + File.separator + "java-io" + File.separator + "hello.txt";

@@ -1,4 +1,4 @@
-package com.joezhou.util;
+package com.joezhou.collection;
 
 import com.sun.xml.internal.bind.v2.runtime.output.SAXOutput;
 import org.junit.Test;

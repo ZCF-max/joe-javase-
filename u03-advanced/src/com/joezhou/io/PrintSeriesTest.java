@@ -10,6 +10,9 @@ import java.util.Date;
  */
 public class PrintSeriesTest {
 
+    /**
+     * 重新定义打印语句的目标位置为硬盘文件，并打印Unicode前128个字符，并还原
+     */
     @Test
     public void printStream() {
         String destPath = "D:" + File.separator + "java-io" + File.separator + "ps.dat";
@@ -27,6 +30,9 @@ public class PrintSeriesTest {
         }
     }
 
+    /**
+     * 设计一个模拟Log4j（java的日志文件）工作的方法
+     */
     @Test
     public void printWriter() {
         String destPath = "D:" + File.separator + "java-io" + File.separator + "my-log.log";

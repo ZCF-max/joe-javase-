@@ -1,4 +1,4 @@
-package com.joezhou.reflect;
+package com.joezhou.properties;
 
 import org.junit.Test;
 
@@ -10,7 +10,6 @@ import java.util.Properties;
  * @author JoeZhou
  */
 public class PropertiesTest {
-
     @Test
     public void properties() throws Exception {
         Properties properties = new Properties();
@@ -24,7 +23,6 @@ public class PropertiesTest {
         Object instance = klass.getDeclaredConstructor().newInstance();
         klass.getDeclaredMethod(methodName).invoke(instance);
     }
-
 }
 
 class Student {

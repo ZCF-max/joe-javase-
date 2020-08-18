@@ -1,4 +1,4 @@
-package com.joezhou.util;
+package com.joezhou.collection;
 
 import org.junit.Test;
 

@@ -11,6 +11,9 @@ public class FileSeriesTest {
 
     private String filePath = "D:" + File.separator + "java-io" + File.separator + "HelloWorld.java";
 
+    /**
+     * 将 `HelloWorld.java` 内容输入到程序中并打印在控制台，并计算总字节数
+     */
     @Test
     public void fileInputStream() {
         try (FileInputStream fis = new FileInputStream(filePath)) {
@@ -26,6 +29,9 @@ public class FileSeriesTest {
         }
     }
 
+    /**
+     * 将 `HelloWorld.java` 内容copy到 `HelloWorld.txt`
+     */
     @Test
     public void fileOutputStream() {
         String destPath = "D:" + File.separator + "java-io" + File.separator + "HelloWorld.txt";
@@ -42,6 +48,9 @@ public class FileSeriesTest {
         }
     }
 
+    /**
+     * 将包含中文的 `HelloWorld.java` 输入到程序中并打印在控制台
+     */
     @Test
     public void fileReader() {
         try (FileReader fr = new FileReader(filePath)) {
@@ -55,6 +64,9 @@ public class FileSeriesTest {
         }
     }
 
+    /**
+     * 输出一个文件 `Unicode.dat`，包含65536个Unicode字符
+     */
     @Test
     public void fileWriter() {
         String destPath = "D:" + File.separator + "java-io" + File.separator + "Unicode.dat";
@@ -68,5 +80,4 @@ public class FileSeriesTest {
             e.printStackTrace();
         }
     }
-
 }

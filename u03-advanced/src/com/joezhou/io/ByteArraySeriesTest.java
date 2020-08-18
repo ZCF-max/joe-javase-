@@ -9,6 +9,9 @@ import java.io.*;
  */
 public class ByteArraySeriesTest {
 
+    /**
+     * 在内存中创造一个虚拟的字节数组，向字节数组中练习写入 `100`, `101`, `102`，计算长度，并读出所有数。
+     */
     @Test
     public void byteArrayStream() {
         ByteArrayOutputStream baos = null;
