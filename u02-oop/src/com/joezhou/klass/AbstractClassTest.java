@@ -5,7 +5,7 @@ import org.junit.Test;
 /**
  * @author JoeZhou
  */
-public class StartTest {
+public class AbstractClassTest {
     @Test
     public void buildBySubClass() {
         BaseStartDemo baseStartDemo = new MyStartDemo();

@@ -10,6 +10,8 @@ import java.net.URL;
 import java.net.URLClassLoader;
 
 /**
+ * 先在D盘创建一个HelloWorld.java文件
+ *
  * @author JoeZhou
  */
 public class DynamicOperaTest {

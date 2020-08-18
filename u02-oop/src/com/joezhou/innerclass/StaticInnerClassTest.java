@@ -1,4 +1,4 @@
-package com.joezhou.specialklass;
+package com.joezhou.innerclass;
 
 import org.junit.Test;
 

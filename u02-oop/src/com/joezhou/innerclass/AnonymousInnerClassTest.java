@@ -1,4 +1,4 @@
-package com.joezhou.specialklass;
+package com.joezhou.innerclass;
 
 import org.junit.Test;
 
@@ -28,11 +28,15 @@ public class AnonymousInnerClassTest {
 }
 
 abstract class BaseService {
-    /**添加数据*/
+    /**
+     * 添加数据
+     */
     abstract void create();
 }
 
 interface UserService {
-    /**添加数据*/
+    /**
+     * 添加数据
+     */
     void create();
 }

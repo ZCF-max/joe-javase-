@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 使用 -Xms20M -Xmx20M 限制堆内存大小为20M。
+ *
  * @author JoeZhou
  */
 public class HeapOutOfMemoryDemo {

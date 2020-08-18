@@ -9,7 +9,7 @@ import java.util.Arrays;
 /**
  * @author JoeZhou
  */
-public class ConstructorTest {
+public class ReflectConstructorTest {
 
     static class Demo {
 

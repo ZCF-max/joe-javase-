@@ -1,4 +1,4 @@
-package com.joezhou.classload;
+package com.joezhou.classloader;
 
 import java.util.Scanner;
 

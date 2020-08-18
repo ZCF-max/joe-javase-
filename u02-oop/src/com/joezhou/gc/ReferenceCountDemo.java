@@ -1,6 +1,11 @@
 package com.joezhou.gc;
 
 /**
+ * 建立循环引用，测试当前JDK版本是否使用了引用计数回收策略。
+ *
+ * 使用 `-verbose:gc -XX:+PrintGCDetails` 运行参数可以看到详细的GC情况，
+ * 可以发现PSYoungGen空间变小，说明程序依然执行了GC，也说明jdk1.8使用的不是引用计数回收策略。
+ *
  * @author JoeZhou
  */
 public class ReferenceCountDemo {

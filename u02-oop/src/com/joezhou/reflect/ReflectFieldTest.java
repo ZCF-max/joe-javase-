@@ -8,7 +8,7 @@ import java.util.Arrays;
 /**
  * @author JoeZhou
  */
-public class FieldTest {
+public class ReflectFieldTest {
     private Class<?> klass = Demo.class;
 
     static class Demo {
