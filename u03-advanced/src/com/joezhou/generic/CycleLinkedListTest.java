@@ -73,7 +73,7 @@ public class CycleLinkedListTest<T> {
 
         @Override
         public String toString() {
-            StringBuilder result = new StringBuilder();
+            StringBuilder result = new StringBuilder("single-linked-list: ");
             Node<E> current = head;
             do {
                 result.append("[");
