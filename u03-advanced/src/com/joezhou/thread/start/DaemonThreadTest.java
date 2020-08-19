@@ -1,4 +1,4 @@
-package com.joezhou.thread;
+package com.joezhou.thread.start;
 
 /*** @author JoeZhou*/
 public class DaemonThreadTest {

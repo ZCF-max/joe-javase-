@@ -1,4 +1,4 @@
-package com.joezhou.thread;
+package com.joezhou.thread.start;
 
 import org.junit.Test;
 
@@ -39,6 +39,4 @@ public class ForegroundThreadTest {
             }
         }).start();
     }
-
-
 }

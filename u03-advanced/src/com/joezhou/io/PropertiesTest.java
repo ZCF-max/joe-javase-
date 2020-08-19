@@ -1,4 +1,4 @@
-package com.joezhou.properties;
+package com.joezhou.io;
 
 import org.junit.Test;
 
@@ -10,6 +10,19 @@ import java.util.Properties;
  * @author JoeZhou
  */
 public class PropertiesTest {
+
+    private static class Student {
+        public void studentInfo() {
+            System.out.println("Im a Student...");
+        }
+    }
+
+    private static class Teacher {
+        public void teacherInfo() {
+            System.out.println("Im a Teacher...");
+        }
+    }
+
     @Test
     public void properties() throws Exception {
         Properties properties = new Properties();
@@ -25,14 +38,3 @@ public class PropertiesTest {
     }
 }
 
-class Student {
-    public void studentInfo() {
-        System.out.println("Im a Student...");
-    }
-}
-
-class Teacher {
-    public void teacherInfo() {
-        System.out.println("Im a Teacher...");
-    }
-}
