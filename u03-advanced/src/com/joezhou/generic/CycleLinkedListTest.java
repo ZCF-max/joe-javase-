@@ -1,22 +1,22 @@
 package com.joezhou.generic;
 
+import org.junit.Before;
 import org.junit.Test;
 
 /**
  * @author JoeZhou
  */
-public class CycleLinkedListTest<T> {
+public class CycleLinkedListTest<E> {
 
     private static class CycleLinkedListDemo<E> {
 
         private Node<E> head;
-        private int size;
 
         private static class Node<E> {
-            E data;
-            Node<E> next;
+            private E data;
+            private Node<E> next;
 
-            Node(E data) {
+            private Node(E data) {
                 this.data = data;
             }
 
@@ -26,54 +26,50 @@ public class CycleLinkedListTest<T> {
             }
         }
 
-        CycleLinkedListDemo(E headData) {
+        private CycleLinkedListDemo(E headData) {
             this.head = new Node<>(headData);
-            this.head.next = head;
+            this.head.next = this.head;
         }
 
-        public void add(E data) {
+        public CycleLinkedListDemo<E> add(E data) {
             Node<E> newNode = new Node<>(data);
-            Node<E> currentNode = this.head;
-            Node<E> currentNodeNextNode = currentNode.next;
-            currentNode.next = newNode;
-            newNode.next = currentNodeNextNode;
-            size++;
+            Node<E> headNode = this.head;
+            Node<E> neckNode = headNode.next;
+            headNode.next = newNode;
+            newNode.next = neckNode;
+            return this;
         }
 
-        public Node get(E data) {
+        private Node<E> get(E data) {
             Node<E> result = null;
             Node<E> currentNode = this.head;
             do {
                 if (data.equals(currentNode.data)) {
                     result = currentNode;
                     break;
-                } else {
-                    currentNode = currentNode.next;
                 }
-            } while (currentNode != head);
+                currentNode = currentNode.next;
+            } while (currentNode != this.head);
             return result;
         }
 
-        void delete(E data) {
-            if (this.size > 0) {
-                Node currentNode = this.head;
-                Node preNode = head;
-                do {
-                    if (data.equals(currentNode.data)) {
-                        preNode.next = currentNode.next;
-                        size--;
-                        break;
-                    } else {
-                        preNode = currentNode;
-                        currentNode = currentNode.next;
-                    }
-                } while (currentNode != head);
-            }
+        private CycleLinkedListDemo<E> delete(E data) {
+            Node currentNode = this.head;
+            Node preNode = this.head;
+            do {
+                if (data.equals(currentNode.data)) {
+                    preNode.next = currentNode.next;
+                    break;
+                }
+                preNode = currentNode;
+                currentNode = currentNode.next;
+            } while (currentNode != this.head);
+            return this;
         }
 
         @Override
         public String toString() {
-            StringBuilder result = new StringBuilder("single-linked-list: ");
+            StringBuilder result = new StringBuilder("cycle-linked-list: ");
             Node<E> current = head;
             do {
                 result.append("[");
@@ -87,38 +83,38 @@ public class CycleLinkedListTest<T> {
         }
     }
 
-    private CycleLinkedListDemo<String> linkList = new CycleLinkedListDemo<>("head");
+    private CycleLinkedListDemo<String> linkList;
+
+    @Before
+    public void before() {
+        linkList = new CycleLinkedListDemo<>("1111");
+    }
 
     @Test
     public void add() {
         System.out.println(linkList);
-        linkList.add("aaaa");
-        System.out.println(linkList);
-        linkList.add("bbbb");
-        System.out.println(linkList);
-        linkList.add("cccc");
+        System.out.println(linkList.add("2222"));
+        System.out.println(linkList.add("3333"));
+        System.out.println(linkList.add("4444"));
     }
 
     @Test
     public void get() {
         System.out.println(linkList);
-        linkList.add("aaaa");
-        System.out.println(linkList);
-        linkList.add("bbbb");
-        System.out.println(linkList);
-        System.out.println(linkList.get("head"));
+        System.out.println(linkList.add("2222"));
+        System.out.println(linkList.add("3333"));
+        System.out.println("node: " + linkList.get("2222"));
+        System.out.println("node: " + linkList.get("3333"));
+        System.out.println("node: " + linkList.get("4444"));
     }
 
     @Test
     public void delete() {
         System.out.println(linkList);
-        linkList.add("aaaa");
-        System.out.println(linkList);
-        linkList.add("bbbb");
-        System.out.println(linkList);
-        linkList.add("cccc");
-        System.out.println(linkList);
-        linkList.delete("bbbb");
-        System.out.println(linkList);
+        System.out.println(linkList.add("2222"));
+        System.out.println(linkList.add("3333"));
+        System.out.println(linkList.add("4444"));
+        System.out.println(linkList.delete("2222"));
+        System.out.println(linkList.delete("5555"));
     }
 }
