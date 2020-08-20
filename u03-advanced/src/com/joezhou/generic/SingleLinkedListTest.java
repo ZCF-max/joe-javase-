@@ -25,16 +25,15 @@ import org.junit.Test;
  * <p>
  * 链表类中添加新方法：resetHead(E data)
  * 1. 创建一个新的节点newNode，注入节点内容
- * 2. newNode指向原头节点
+ * 2. newNode节点的next指向原头节点
  * 3. newNode变更为链表头
  * 4. 返回当前链表实例
  * 5. 测试
  * <p>
  * 链表类中添加新方法：add(E data)
  * 1. 创建一个新的节点newNode，注入节点内容
- * 2. 从头开始向后一直寻找
- * 2.1 找到链表的尾节点（currentNode）
- * 3. currentNode指向newNode
+ * 2. 从头开始向后一直寻找，找到链表的尾节点（currentNode）
+ * 3. currentNode节点的next指向newNode
  * 4. 返回当前链表实例
  * 5. 测试
  * <p>
@@ -45,8 +44,8 @@ import org.junit.Test;
  * 3.1 找到链表中原2号位置上的节点（currentNode）
  * 3.2 同时找到链表中原2-1号位置上的节点（preNode）
  * 3.3 如果寻找过程中就已经到了节点末尾，直接调用add(E data)
- * 4. preNode节点指向newNode
- * 5. newNode指向currentNode
+ * 4. preNode节点的next指向newNode
+ * 5. newNode节点的next指向currentNode
  * 6. 返回当前链表实例
  * 7. 测试
  *
@@ -61,7 +60,7 @@ import org.junit.Test;
  * 1. 从头开始向后一直寻找
  * 1.2 找到链表中对应指定内容的节点（currentNode）
  * 1.3 同时找到currentNode的上一个的节点（preNode）
- * 1.4 一旦找到，则将preNode节点执行currentNode的next
+ * 1.4 一旦找到，则将preNode节点的next指向currentNode的next
  * 2. 返回当前链表实例
  * 3. 测试
  *

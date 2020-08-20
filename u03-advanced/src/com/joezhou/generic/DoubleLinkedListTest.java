@@ -34,11 +34,11 @@ import org.junit.Test;
  * <p>
  * 链表类中添加新方法：add(E data)
  * 1. 创建一个新的节点newNode，注入节点内容
- * 2. 从头开始向后一直寻找
- * 2.1 找到链表的尾节点（currentNode）
- * 3. currentNode指向newNode
- * 4. 返回当前链表实例
- * 5. 测试
+ * 2. 从头开始向后一直寻找，找到链表的尾节点（currentNode）
+ * 3. currentNode节点的next指向newNode
+ * 4. newNode节点的pre指向currentNode
+ * 5. 返回当前链表实例
+ * 6. 测试
  * <p>
  * 链表类中添加新方法：add(E data, int pos)
  * 1. 如果pos<=0，视为重置头节点操作，直接调用resetHead()
@@ -47,8 +47,10 @@ import org.junit.Test;
  * 3.1 找到链表中原2号位置上的节点（currentNode）
  * 3.2 同时找到链表中原2-1号位置上的节点（preNode）
  * 3.3 如果寻找过程中就已经到了节点末尾，直接调用add(E data)
- * 4. preNode节点指向newNode
- * 5. newNode指向currentNode
+ * 4. newNode节点的pre指向preNode
+ * 5. preNode节点的next指向newNode
+ * 6. newNode节点的next指向currentNode
+ * 7. currentNode节点的pre指向newNode
  * 6. 返回当前链表实例
  * 7. 测试
  * <p>
@@ -62,10 +64,10 @@ import org.junit.Test;
  * 链表类中添加新方法：delete(E data)
  * 1. 从头开始向后一直寻找
  * 1.2 找到链表中对应指定内容的节点（currentNode）
- * 1.3 同时找到currentNode的上一个的节点（preNode）
- * 1.4 一旦找到，则将preNode节点执行currentNode的next
- * 2. 返回当前链表实例
- * 3. 测试
+ * 3. currentNode节点的上一个节点的next指向currentNode节点的next
+ * 4. currentNode节点的下一个节点的pre指向currentNode节点的pre
+ * 5. 返回当前链表实例
+ * 6. 测试
  *
  * @author JoeZhou
  */
@@ -125,7 +127,6 @@ public class DoubleLinkedListTest<T> {
 
         private DoubleLinkedListDemo<E> add(E data) {
             Node<E> newNode = new Node<>(data);
-
             Node<E> currentNode = this.head;
             while (currentNode.next != null) {
                 currentNode = currentNode.next;
@@ -135,7 +136,7 @@ public class DoubleLinkedListTest<T> {
             return this;
         }
 
-        public DoubleLinkedListDemo<E> add(E data, int pos) {
+        private DoubleLinkedListDemo<E> add(E data, int pos) {
 
             if (pos <= 0) {
                 this.resetHead(data);
@@ -153,14 +154,14 @@ public class DoubleLinkedListTest<T> {
                 preNode = currentNode;
                 currentNode = currentNode.next;
             }
-            preNode.next = newNode;
             newNode.pre = preNode;
-            currentNode.pre = newNode;
+            preNode.next = newNode;
             newNode.next = currentNode;
+            currentNode.pre = newNode;
             return this;
         }
-/*
-        public Node get(E data) {
+
+        private Node get(E data) {
             Node<E> result = null;
             Node<E> currentNode = this.head;
             while (currentNode != null) {
@@ -174,29 +175,26 @@ public class DoubleLinkedListTest<T> {
             return result;
         }
 
-        public void delete(E data) {
-            if (this.size > 0) {
-                Node currentNode = this.head;
-                Node preNode = head;
-                while (currentNode != null) {
-                    if (data.equals(currentNode.data)) {
-                        preNode.next = currentNode.next.pre;
-                        size--;
-                        break;
-                    } else {
-                        preNode = currentNode;
-                        currentNode = currentNode.next;
-                    }
+        private DoubleLinkedListDemo<E> delete(E data) {
+            Node<E> currentNode = this.head;
+            while (currentNode != null) {
+                if (data.equals(currentNode.data)) {
+                    currentNode.pre.next = currentNode.next;
+                    currentNode.next.pre = currentNode.pre;
+                    break;
+                } else {
+                    currentNode = currentNode.next;
                 }
             }
-        }*/
+            return this;
+        }
 
     }
 
     private DoubleLinkedListDemo<String> linkList;
 
     @Before
-    public void before(){
+    public void before() {
         linkList = new DoubleLinkedListDemo<>("1111");
     }
 
@@ -230,37 +228,23 @@ public class DoubleLinkedListTest<T> {
         System.out.println(linkList.add("5555", 2));
     }
 
-/*
-    @Test
-    public void add() {
-        System.out.println(linkList);
-        linkList.add(0, "aaaa");
-        System.out.println(linkList);
-        linkList.add(9, "bbbb");
-        System.out.println(linkList);
-        linkList.add(1, "cccc");
-        System.out.println(linkList);
-        linkList.add(2, "dddd");
-        System.out.println(linkList);
-    }
-
     @Test
     public void get() {
-        linkList.addTail("aaaa");
-        linkList.addTail("bbbb");
-        System.out.println(linkList.get("bbbb"));
+        System.out.println(linkList);
+        System.out.println(linkList.add("2222"));
+        System.out.println(linkList.add("3333"));
+        System.out.println("node: " + linkList.get("2222"));
+        System.out.println("node: " + linkList.get("3333"));
+        System.out.println("node: " + linkList.get("4444"));
     }
 
     @Test
     public void delete() {
         System.out.println(linkList);
-        linkList.addTail("aaaa");
-        System.out.println(linkList);
-        linkList.addTail("bbbb");
-        System.out.println(linkList);
-        linkList.addTail("cccc");
-        System.out.println(linkList);
-        linkList.delete("bbbb");
-        System.out.println(linkList);
-    }*/
+        System.out.println(linkList.add("2222"));
+        System.out.println(linkList.add("3333"));
+        System.out.println(linkList.add("4444"));
+        System.out.println(linkList.delete("2222"));
+        System.out.println(linkList.delete("5555"));
+    }
 }
