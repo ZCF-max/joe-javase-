@@ -6,7 +6,7 @@ import org.junit.Test;
 /**
  * @author JoeZhou
  */
-public class CycleLinkedListTest<E> {
+public class CycleLinkedListTest {
 
     private static class CycleLinkedListDemo<E> {
 
