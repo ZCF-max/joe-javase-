@@ -15,8 +15,8 @@ import org.junit.Test;
  * 设计链表类：SingleLinkedListDemo<E>
  * 1. 属性：Node<E> head：头节点
  * 2. 构造：SingleLinkedListDemo(E headData)
- * 2.1 创建一个新节点，注入节点内容
- * 2.2 指定新节点为头节点
+ * 2.1 创建一个新节点newNode，注入节点内容
+ * 2.2 指定newNode为头节点head
  * 2.3 方法：toString()：遍历打印链表中的所有节点
  * <p>
  * 设计测试类：SingleLinkedListTest
@@ -24,26 +24,29 @@ import org.junit.Test;
  * 2. 测试 toString()
  * <p>
  * 链表类中添加新方法：resetHead(E data)
- * 1. 创建一个新的节点，注入节点内容
- * 2. 将新节点的next指向原头节点
- * 3. 将新节点变更为链表的新头节点
+ * 1. 创建一个新的节点newNode，注入节点内容
+ * 2. newNode指向原头节点
+ * 3. newNode变更为链表头
  * 4. 返回当前链表实例
  * 5. 测试
- *
+ * <p>
  * 链表类中添加新方法：add(E data)
- * 1. 创建一个新的节点，注入节点内容
- * 2. 从头开始向后寻找尾节点（next为null的就是尾节点）
- * 3. 将尾节点的next由null更改为新节点
+ * 1. 创建一个新的节点newNode，注入节点内容
+ * 2. 从头开始向后一直寻找
+ * 2.1 找到链表的尾节点（currentNode）
+ * 3. currentNode指向newNode
  * 4. 返回当前链表实例
  * 5. 测试
- *
+ * <p>
  * 链表类中添加新方法：add(E data, int pos)
  * 1. 如果pos<=0，视为重置头节点操作，直接调用resetHead()
- * 2. 创建一个新的节点，注入节点内容
- * 3. 从头开始向后寻找pos原位置上的节点（假设为A节点）
- * 3.1 如果过程中发现尾节点，直接调用add(E data)
- * 4. 将新节点的next变更A节点的next
- * 5. 将A节点的next变更为新节点
+ * 2. 创建一个新的节点newNode，注入节点内容
+ * 3. 从头开始向后寻找2次（假设pos值为2）
+ * 3.1 找到链表中原2号位置上的节点（currentNode）
+ * 3.2 同时找到链表中原2-1号位置上的节点（preNode）
+ * 3.3 如果寻找过程中就已经到了节点末尾，直接调用add(E data)
+ * 4. preNode节点指向newNode
+ * 5. newNode指向currentNode
  * 6. 返回当前链表实例
  * 7. 测试
  *
@@ -113,15 +116,17 @@ public class SingleLinkedListTest {
 
             Node<E> newNode = new Node<>(data);
             Node<E> currentNode = this.head;
-            for (int i = 0; i < pos - 1; i++) {
+            Node<E> preNode = this.head;
+            for (int i = 0; i < pos; i++) {
                 if (currentNode.next == null) {
                     add(data);
                     return this;
                 }
+                preNode = currentNode;
                 currentNode = currentNode.next;
             }
-            newNode.next = currentNode.next;
-            currentNode.next = newNode;
+            preNode.next = newNode;
+            newNode.next = currentNode;
             return this;
         }
 
