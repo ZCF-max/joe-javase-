@@ -10,28 +10,42 @@ import org.junit.Test;
  * 1. 属性：E data：节点内容
  * 2. 属性：Node<E> next：当前节点的后继节点
  * 3. 构造：Node(E data)：指定data内容
- * 4. 方法：toString()：[data -> next.data]
+ * 4. 方法：toString()：[this.data -> next.data]
  * <p>
  * 设计链表类：SingleLinkedListDemo<E>
  * 1. 属性：Node<E> head：头节点
- * 2. 属性：Node<E> tail：尾节点
- * 3. 属性：int size：链表长度
- * 4. 构造：SingleLinkedListDemo(E headData)
- * 4.1 创建一个新节点，注入节点内容
- * 4.2 指定新节点为头节点
- * 4.3 指定新节点为尾节点
- * 2.5 方法：toString()：遍历打印链表中的所有节点
+ * 2. 构造：SingleLinkedListDemo(E headData)
+ * 2.1 创建一个新节点，注入节点内容
+ * 2.2 指定新节点为头节点
+ * 2.3 方法：toString()：遍历打印链表中的所有节点
  * <p>
  * 设计测试类：SingleLinkedListTest
  * 1. 获取链表类实例
  * 2. 测试 toString()
  * <p>
- * 链表类中添加新方法：resetHead()
+ * 链表类中添加新方法：resetHead(E data)
  * 1. 创建一个新的节点，注入节点内容
  * 2. 将新节点的next指向原头节点
  * 3. 将新节点变更为链表的新头节点
  * 4. 返回当前链表实例
- * 5. 测试 resetHead()
+ * 5. 测试
+ *
+ * 链表类中添加新方法：add(E data)
+ * 1. 创建一个新的节点，注入节点内容
+ * 2. 从头开始向后寻找尾节点（next为null的就是尾节点）
+ * 3. 将尾节点的next由null更改为新节点
+ * 4. 返回当前链表实例
+ * 5. 测试
+ *
+ * 链表类中添加新方法：add(E data, int pos)
+ * 1. 如果pos<=0，视为重置头节点操作，直接调用resetHead()
+ * 2. 创建一个新的节点，注入节点内容
+ * 3. 从头开始向后寻找pos原位置上的节点（假设为A节点）
+ * 3.1 如果过程中发现尾节点，直接调用add(E data)
+ * 4. 将新节点的next变更A节点的next
+ * 5. 将A节点的next变更为新节点
+ * 6. 返回当前链表实例
+ * 7. 测试
  *
  * @author JoeZhou
  */
