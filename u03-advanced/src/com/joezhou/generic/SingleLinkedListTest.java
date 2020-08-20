@@ -50,6 +50,21 @@ import org.junit.Test;
  * 6. 返回当前链表实例
  * 7. 测试
  *
+ * 链表类中添加新方法：get(E data)
+ * 1. 从头开始向后一直寻找
+ * 1.1 寻找的过程中不断地用指定值比对每个节点的data
+ * 1.2 比对成功返回对应节点
+ * 1.3 比对失败返回null
+ * 2. 测试
+ *
+ * 链表类中添加新方法：delete(E data)
+ * 1. 从头开始向后一直寻找
+ * 1.2 找到链表中对应指定内容的节点（currentNode）
+ * 1.3 同时找到currentNode的上一个的节点（preNode）
+ * 1.4 一旦找到，则将preNode节点执行currentNode的next
+ * 2. 返回当前链表实例
+ * 3. 测试
+ *
  * @author JoeZhou
  */
 public class SingleLinkedListTest {
@@ -66,7 +81,7 @@ public class SingleLinkedListTest {
 
             @Override
             public String toString() {
-                return data + "-> " + (next == null ? "null" : next.data);
+                return "[" + data + "-> " + (next == null ? "null" : next.data) + "]";
             }
         }
 
@@ -198,8 +213,8 @@ public class SingleLinkedListTest {
     @Test
     public void get() {
         System.out.println(linkList);
-        System.out.println(linkList.add("2222", 9));
-        System.out.println(linkList.add("3333", 0));
+        System.out.println(linkList.add("2222"));
+        System.out.println(linkList.add("3333"));
         System.out.println("node: " + linkList.get("2222"));
         System.out.println("node: " + linkList.get("3333"));
         System.out.println("node: " + linkList.get("4444"));
