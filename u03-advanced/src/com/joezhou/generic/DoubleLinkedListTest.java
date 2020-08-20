@@ -1,8 +1,72 @@
 package com.joezhou.generic;
 
+import org.junit.Before;
 import org.junit.Test;
 
 /**
+ * 设计流程：
+ * <p>
+ * 设计节点类：Node<E>
+ * 1. 属性：E data：节点内容
+ * 2. 属性：Node<E> next：当前节点的后继节点
+ * 3. 属性：Node<E> pre：当前节点的前驱节点
+ * 4. 构造：Node(E data)：指定data内容
+ * 5. 方法：toString()：[this.data -> next.data]
+ * <p>
+ * 设计链表类：DoubleLinkedListDemo<E>
+ * 1. 属性：Node<E> head：头节点
+ * 2. 构造：DoubleLinkedListDemo(E headData)
+ * 2.1 创建一个新节点newNode，注入节点内容
+ * 2.2 指定newNode为头节点head
+ * 2.3 方法：toString()：遍历打印链表中的所有节点
+ * <p>
+ * 设计测试类：SingleLinkedListTest
+ * 1. 获取链表类实例
+ * 2. 测试 toString()
+ * <p>
+ * 链表类中添加新方法：resetHead(E data)
+ * 1. 创建一个新的节点newNode，注入节点内容
+ * 2. 原头节点的pre指向newNode
+ * 3. newNode的next指向原头节点
+ * 3. newNode变更为链表头
+ * 4. 返回当前链表实例
+ * 5. 测试
+ * <p>
+ * 链表类中添加新方法：add(E data)
+ * 1. 创建一个新的节点newNode，注入节点内容
+ * 2. 从头开始向后一直寻找
+ * 2.1 找到链表的尾节点（currentNode）
+ * 3. currentNode指向newNode
+ * 4. 返回当前链表实例
+ * 5. 测试
+ * <p>
+ * 链表类中添加新方法：add(E data, int pos)
+ * 1. 如果pos<=0，视为重置头节点操作，直接调用resetHead()
+ * 2. 创建一个新的节点newNode，注入节点内容
+ * 3. 从头开始向后寻找2次（假设pos值为2）
+ * 3.1 找到链表中原2号位置上的节点（currentNode）
+ * 3.2 同时找到链表中原2-1号位置上的节点（preNode）
+ * 3.3 如果寻找过程中就已经到了节点末尾，直接调用add(E data)
+ * 4. preNode节点指向newNode
+ * 5. newNode指向currentNode
+ * 6. 返回当前链表实例
+ * 7. 测试
+ * <p>
+ * 链表类中添加新方法：get(E data)
+ * 1. 从头开始向后一直寻找
+ * 1.1 寻找的过程中不断地用指定值比对每个节点的data
+ * 1.2 比对成功返回对应节点
+ * 1.3 比对失败返回null
+ * 2. 测试
+ * <p>
+ * 链表类中添加新方法：delete(E data)
+ * 1. 从头开始向后一直寻找
+ * 1.2 找到链表中对应指定内容的节点（currentNode）
+ * 1.3 同时找到currentNode的上一个的节点（preNode）
+ * 1.4 一旦找到，则将preNode节点执行currentNode的next
+ * 2. 返回当前链表实例
+ * 3. 测试
+ *
  * @author JoeZhou
  */
 public class DoubleLinkedListTest<T> {
@@ -10,11 +74,11 @@ public class DoubleLinkedListTest<T> {
     private static class DoubleLinkedListDemo<E> {
 
         private static class Node<E> {
-            E data;
-            Node<E> next;
-            Node<E> pre;
+            private E data;
+            private Node<E> next;
+            private Node<E> pre;
 
-            Node(E data) {
+            private Node(E data) {
                 this.data = data;
             }
 
@@ -22,25 +86,22 @@ public class DoubleLinkedListTest<T> {
             public String toString() {
                 return "["
                         + (pre == null ? "null" : pre.data)
-                        + "|" + data + "|"
+                        + "<- " + data + "->"
                         + (next == null ? "null" : next.data)
                         + "]";
             }
         }
 
         private Node<E> head;
-        private Node<E> tail;
-        private int size;
 
-        DoubleLinkedListDemo(E headData) {
+        private DoubleLinkedListDemo(E headData) {
             this.head = new Node<>(headData);
-            this.tail = head;
         }
 
         @Override
         public String toString() {
-            StringBuilder result = new StringBuilder("single-linked-list: ");
-            Node<E> current = head;
+            StringBuilder result = new StringBuilder("double-linked-list: ");
+            Node<E> current = this.head;
             while (current != null) {
                 result.append("[");
                 result.append(current.pre == null ? "null" : current.pre.data);
@@ -54,45 +115,51 @@ public class DoubleLinkedListTest<T> {
             return result.toString();
         }
 
-        void addHead(E data) {
+        private DoubleLinkedListDemo<E> resetHead(E data) {
             Node<E> newNode = new Node<>(data);
             this.head.pre = newNode;
             newNode.next = this.head;
             this.head = newNode;
-            size++;
+            return this;
         }
 
-        void addTail(E data) {
+        private DoubleLinkedListDemo<E> add(E data) {
             Node<E> newNode = new Node<>(data);
-            this.tail.next = newNode;
-            newNode.pre = this.tail;
-            this.tail = newNode;
-            size++;
+
+            Node<E> currentNode = this.head;
+            while (currentNode.next != null) {
+                currentNode = currentNode.next;
+            }
+            currentNode.next = newNode;
+            newNode.pre = currentNode;
+            return this;
         }
 
-        public void add(int pos, E data) {
+        public DoubleLinkedListDemo<E> add(E data, int pos) {
 
             if (pos <= 0) {
-                this.addHead(data);
-                return;
-            }
-
-            if (pos >= this.size) {
-                this.addTail(data);
-                return;
+                this.resetHead(data);
+                return this;
             }
 
             Node<E> newNode = new Node<>(data);
             Node<E> currentNode = this.head;
-            for (int i = 0; i < pos - 1; i++) {
+            Node<E> preNode = this.head;
+            for (int i = 0; i < pos; i++) {
+                if (currentNode.next == null) {
+                    add(data);
+                    return this;
+                }
+                preNode = currentNode;
                 currentNode = currentNode.next;
             }
-            newNode.next = currentNode.next;
-            newNode.pre = currentNode;
-            currentNode.next = newNode;
-            size++;
+            preNode.next = newNode;
+            newNode.pre = preNode;
+            currentNode.pre = newNode;
+            newNode.next = currentNode;
+            return this;
         }
-
+/*
         public Node get(E data) {
             Node<E> result = null;
             Node<E> currentNode = this.head;
@@ -122,30 +189,48 @@ public class DoubleLinkedListTest<T> {
                     }
                 }
             }
-        }
+        }*/
 
     }
 
-    private DoubleLinkedListDemo<String> linkList = new DoubleLinkedListDemo<>("head");
+    private DoubleLinkedListDemo<String> linkList;
 
-    @Test
-    public void addHead() {
-        System.out.println(linkList);
-        linkList.addHead("aaaa");
-        System.out.println(linkList);
-        linkList.addHead("bbbb");
-        System.out.println(linkList);
+    @Before
+    public void before(){
+        linkList = new DoubleLinkedListDemo<>("1111");
     }
 
     @Test
-    public void addTail() {
-        System.out.println(linkList);
-        linkList.addTail("aaaa");
-        System.out.println(linkList);
-        linkList.addTail("bbbb");
+    public void iterator() {
         System.out.println(linkList);
     }
 
+    @Test
+    public void resetHead() {
+        System.out.println(linkList);
+        System.out.println(linkList.resetHead("2222"));
+        System.out.println(linkList.resetHead("3333"));
+        System.out.println(linkList.resetHead("4444"));
+    }
+
+    @Test
+    public void add() {
+        System.out.println(linkList);
+        System.out.println(linkList.add("2222"));
+        System.out.println(linkList.add("3333"));
+        System.out.println(linkList.add("4444"));
+    }
+
+    @Test
+    public void addWithPos() {
+        System.out.println(linkList);
+        System.out.println(linkList.add("2222", 0));
+        System.out.println(linkList.add("3333", 9));
+        System.out.println(linkList.add("4444", 1));
+        System.out.println(linkList.add("5555", 2));
+    }
+
+/*
     @Test
     public void add() {
         System.out.println(linkList);
@@ -177,5 +262,5 @@ public class DoubleLinkedListTest<T> {
         System.out.println(linkList);
         linkList.delete("bbbb");
         System.out.println(linkList);
-    }
+    }*/
 }
