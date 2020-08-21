@@ -31,6 +31,18 @@ public class CycleLinkedListTest {
             this.head.next = this.head;
         }
 
+        /**
+         * 在链表的脖子位置插入一个新节点
+         *
+         * 创建一个新的节点newNode，注入节点内容
+         * 备份头节点（headNode）
+         * 备份脖子节点（neckNode）
+         * headNode的next指向newNode
+         * newNode的next指向neckNode
+         *
+         * @param data 节点内容
+         * @return 当前链表
+         */
         public CycleLinkedListDemo<E> add(E data) {
             Node<E> newNode = new Node<>(data);
             Node<E> headNode = this.head;
@@ -40,6 +52,19 @@ public class CycleLinkedListTest {
             return this;
         }
 
+        /**
+         * 获取指定节点数据对应的节点
+         *
+         * 备份头节点（currentNode）
+         * 先寻找一次，并改变currentNode的指向为下一个，否则循环不进入
+         * 只要currentNode不是头，就一直向后寻找
+         * 寻找的过程中不断地用指定值比对每个节点的data
+         * 比对成功返回对应节点
+         * 比对失败返回null
+         *
+         * @param data 节点内容
+         * @return 节点数据所在的节点
+         */
         private Node<E> get(E data) {
             Node<E> result = null;
             Node<E> currentNode = this.head;
@@ -53,6 +78,20 @@ public class CycleLinkedListTest {
             return result;
         }
 
+        /**
+         * 删除指定节点数据对应的节点
+         *
+         * 备份头节点（headNode）
+         * 备份前一个节点（preNode）
+         * 先寻找一次，并改变currentNode的指向为下一个，否则循环不进入
+         * 只要currentNode不是头，就一直向后寻找
+         * 寻找的过程中不断地用指定值比对每个节点的data
+         * 比对成功将preNode的next指向currentNode的.next
+         * 比对不成功将currentNode备份为preNode，将currentNode指向下一个
+         *
+         * @param data 节点内容
+         * @return 当前链表
+         */
         private CycleLinkedListDemo<E> delete(E data) {
             Node currentNode = this.head;
             Node preNode = this.head;

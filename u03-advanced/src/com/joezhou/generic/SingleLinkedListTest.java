@@ -46,6 +46,8 @@ public class SingleLinkedListTest {
         }
 
         /**
+         * 重新设置链表头
+         *
          * 创建一个新的节点newNode，注入节点内容
          * newNode节点的next指向原头节点
          * newNode变更为链表头节点
@@ -60,6 +62,8 @@ public class SingleLinkedListTest {
         }
 
         /**
+         * 在链表的尾部追加一个节点
+         *
          * 创建一个新的节点newNode，注入节点内容
          * 从头开始向后一直寻找，找到链表的尾节点（currentNode）
          * currentNode节点的next指向newNode
@@ -76,6 +80,8 @@ public class SingleLinkedListTest {
         }
 
         /**
+         * 在链表指定位置插入一个节点
+         *
          * 如果pos<=0，视为重置头节点操作，直接调用resetHead()
          * 创建一个新的节点newNode，注入节点内容
          * 从头开始向后寻找2次（假设pos值为2）
@@ -112,6 +118,8 @@ public class SingleLinkedListTest {
         }
 
         /**
+         * 获取指定节点数据对应的节点
+         *
          * 从头开始向后一直寻找
          * 寻找的过程中不断地用指定值比对每个节点的data
          * 比对成功返回对应节点
@@ -133,6 +141,8 @@ public class SingleLinkedListTest {
         }
 
         /**
+         * 删除指定节点数据对应的节点
+         *
          * 从头开始向后一直寻找
          * 找到链表中对应指定内容的节点（currentNode）
          * 同时找到currentNode的上一个的节点（preNode）
