@@ -9,30 +9,29 @@ public class JosephRingTest {
 
     private static class JosephRingDemo<E> {
         private Node<E> head;
-        private int size;
 
         private static class Node<E> {
-            E data;
-            Node<E> next;
+            private E data;
+            private Node<E> next;
 
-            Node(E data) {
+            private Node(E data) {
                 this.data = data;
             }
         }
 
-        public JosephRingDemo(E headData) {
+        private JosephRingDemo(E headData) {
             this.head = new Node<>(headData);
             this.head.next = head;
         }
 
-        public void add(E data) {
-            Node<E> newNode = new Node<>(data);
+        public void append(E data) {
             Node<E> currentNode = this.head;
-            Node<E> currentNodeNextNode = currentNode.next;
+            while (currentNode.next != this.head) {
+                currentNode = currentNode.next;
+            }
+            Node<E> newNode = new Node<>(data);
             currentNode.next = newNode;
-            newNode.next = currentNodeNextNode;
-            this.head = newNode;
-            size++;
+            newNode.next = this.head;
         }
 
         @Override
@@ -48,26 +47,24 @@ public class JosephRingTest {
             return result.toString();
         }
 
-        public void kill(){
-            while (this.size > 0) {
-                Node<E> currentNode = this.head;
-                Node<E> left = currentNode.next;
-                Node<E> right = currentNode.next.next.next;
+        private void kill() {
+            System.out.println(this.toString());
+            while (this.head.next != this.head) {
+                Node<E> left = this.head.next;
+                Node<E> right = this.head.next.next.next;
                 left.next = right;
                 this.head = right;
-                size--;
-                System.out.println(toString());
+                System.out.println(this.toString());
             }
         }
     }
 
     @Test
     public void josephRing() {
-        JosephRingDemo<String> josephRingTest = new JosephRingDemo<>("1");
-        for (int i = 2; i < 10; i++) {
-            josephRingTest.add("" + i);
+        JosephRingDemo<String> josephRingDemo = new JosephRingDemo<>("1");
+        for (int i = 2; i < 11; i++) {
+            josephRingDemo.append("" + i);
         }
-        System.out.println(josephRingTest);
-        josephRingTest.kill();
+        josephRingDemo.kill();
     }
 }
