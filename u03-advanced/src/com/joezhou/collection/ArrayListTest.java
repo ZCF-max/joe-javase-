@@ -3,10 +3,7 @@ package com.joezhou.collection;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 /**
  * @author JoeZhou
@@ -103,6 +100,20 @@ public class ArrayListTest {
     @Test
     public void iterator() {
         this.add();
+        Iterator<String> iterator = list.iterator();
+        while (iterator.hasNext()) {
+            String e = iterator.next();
+            if ("UK".equals(e)) {
+                iterator.remove();
+            }
+            System.out.print(e + "\0");
+        }
+    }
+
+    @Test
+    public void listIterator() {
+        this.add();
+        Iterator<String> iterator = list.iterator();
         ListIterator<String> listIter = list.listIterator(0);
         while (listIter.hasNext()) {
             String e = listIter.next();
@@ -117,12 +128,11 @@ public class ArrayListTest {
     }
 
     @Test
-    public void reverseIterator() {
+    public void reverseListIterator() {
         this.add();
         ListIterator<String> listIter = list.listIterator(list.size());
         while (listIter.hasPrevious()) {
             System.out.print(listIter.previous() + "\0");
         }
     }
-
 }
