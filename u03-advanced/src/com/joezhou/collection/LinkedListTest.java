@@ -4,7 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * @author JoeZhou
@@ -19,7 +18,7 @@ public class LinkedListTest {
     }
 
     @Test
-    public void add() {
+    public void create() {
         linkedList.add("Korea");
         linkedList.add("Japan");
         linkedList.addFirst("China");
@@ -34,7 +33,7 @@ public class LinkedListTest {
 
     @Test
     public void retrieve() {
-        this.add();
+        this.create();
         System.out.println(linkedList.get(0));
         System.out.println(linkedList.element());
         System.out.println(linkedList.getFirst());
@@ -46,14 +45,14 @@ public class LinkedListTest {
 
     @Test
     public void update() {
-        this.add();
+        this.create();
         linkedList.set(1, "UK");
         System.out.println(linkedList);
     }
 
     @Test
     public void remove() {
-        this.add();
+        this.create();
         System.out.println(linkedList.poll());
         System.out.println(linkedList.pollFirst());
         System.out.println(linkedList.pollLast());
@@ -67,4 +66,19 @@ public class LinkedListTest {
         System.out.println(linkedList.removeLastOccurrence("US"));
     }
 
+    @Test
+    public void iteratorByFor() {
+        this.create();
+        for (int i = 0, j = linkedList.size(); i < j; i++) {
+            System.out.print(linkedList.get(i) + "\0");
+        }
+    }
+
+    @Test
+    public void iteratorByForEach() {
+        this.create();
+        for (String str : linkedList) {
+            System.out.print(str + "\0");
+        }
+    }
 }

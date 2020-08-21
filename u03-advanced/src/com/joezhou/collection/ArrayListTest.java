@@ -10,62 +10,62 @@ import java.util.*;
  */
 public class ArrayListTest {
 
-    private List<String> list;
+    private ArrayList<String> arrayList;
 
     @Before
     public void before() {
-        list = new ArrayList<>(10);
+        arrayList = new ArrayList<>(10);
     }
 
     @Test
-    public void add() {
-        list.add("China");
-        list.add("Japan");
-        list.add(1, "Korea");
-        list.add(1, "Thailand");
+    public void create() {
+        arrayList.add("China");
+        arrayList.add("Japan");
+        arrayList.add(1, "Korea");
+        arrayList.add(1, "Thailand");
 
         List<String> europe = new ArrayList<>();
         europe.add("UK");
         europe.add("France");
-        list.addAll(europe);
+        arrayList.addAll(europe);
 
         List<String> africa = new ArrayList<>();
         africa.add("Congo");
         africa.add("Egypt");
-        list.addAll(1, africa);
+        arrayList.addAll(1, africa);
 
-        System.out.println("add over: " + list);
+        System.out.println("add over: " + arrayList);
     }
 
     @Test
     public void retrieve() {
-        this.add();
+        this.create();
         List<String> europe = new ArrayList<>();
         europe.add("UK");
         europe.add("France");
 
-        System.out.println(list.get(0));
-        System.out.println(list.indexOf("China"));
-        System.out.println(list.lastIndexOf("UK"));
-        System.out.println(list.equals(europe));
-        System.out.println(list.contains("Japan"));
-        System.out.println(list.containsAll(europe));
-        System.out.println(list.isEmpty());
-        System.out.println(list.size());
-        System.out.println(list.toArray()[0]);
+        System.out.println(arrayList.get(0));
+        System.out.println(arrayList.indexOf("China"));
+        System.out.println(arrayList.lastIndexOf("UK"));
+        System.out.println(arrayList.equals(europe));
+        System.out.println(arrayList.contains("Japan"));
+        System.out.println(arrayList.containsAll(europe));
+        System.out.println(arrayList.isEmpty());
+        System.out.println(arrayList.size());
+        System.out.println(arrayList.toArray()[0]);
     }
 
     @Test
     public void update() {
-        this.add();
+        this.create();
 
-        list.set(1, "UK");
-        System.out.println(list);
+        arrayList.set(1, "UK");
+        System.out.println(arrayList);
     }
 
     @Test
     public void delete() {
-        this.add();
+        this.create();
         List<String> europe = new ArrayList<>();
         europe.add("UK");
         europe.add("France");
@@ -73,66 +73,27 @@ public class ArrayListTest {
         africa.add("Congo");
         africa.add("Egypt");
 
-        System.out.println(list.subList(0, 3));
-        System.out.println(list.remove(1));
-        System.out.println(list.remove("Egypt"));
-        list.removeAll(europe);
-        list.retainAll(africa);
-        list.clear();
+        System.out.println(arrayList.subList(0, 3));
+        System.out.println(arrayList.remove(1));
+        System.out.println(arrayList.remove("Egypt"));
+        arrayList.removeAll(europe);
+        arrayList.retainAll(africa);
+        arrayList.clear();
     }
 
     @Test
     public void iteratorByFor() {
-        this.add();
-        for (int i = 0, j = list.size(); i < j; i++) {
-            System.out.print(list.get(i) + "\0");
+        this.create();
+        for (int i = 0, j = arrayList.size(); i < j; i++) {
+            System.out.print(arrayList.get(i) + "\0");
         }
     }
 
     @Test
     public void iteratorByForEach() {
-        this.add();
-        for (String str : list) {
+        this.create();
+        for (String str : arrayList) {
             System.out.print(str + "\0");
-        }
-    }
-
-    @Test
-    public void iterator() {
-        this.add();
-        Iterator<String> iterator = list.iterator();
-        while (iterator.hasNext()) {
-            String e = iterator.next();
-            if ("UK".equals(e)) {
-                iterator.remove();
-            }
-            System.out.print(e + "\0");
-        }
-    }
-
-    @Test
-    public void listIterator() {
-        this.add();
-        Iterator<String> iterator = list.iterator();
-        ListIterator<String> listIter = list.listIterator(0);
-        while (listIter.hasNext()) {
-            String e = listIter.next();
-            if ("China".equals(e)) {
-                listIter.set("CHINA");
-            }
-            if ("UK".equals(e)) {
-                listIter.remove();
-            }
-            System.out.print(e + "\0");
-        }
-    }
-
-    @Test
-    public void reverseListIterator() {
-        this.add();
-        ListIterator<String> listIter = list.listIterator(list.size());
-        while (listIter.hasPrevious()) {
-            System.out.print(listIter.previous() + "\0");
         }
     }
 }

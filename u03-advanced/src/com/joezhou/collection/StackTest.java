@@ -1,7 +1,9 @@
 package com.joezhou.collection;
 
+import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Iterator;
 import java.util.Stack;
 
 /**
@@ -9,18 +11,47 @@ import java.util.Stack;
  */
 public class StackTest {
 
+    private Stack<Integer> stack;
+
+    @Before
+    public void before() {
+        stack = new Stack<>();
+    }
+
     @Test
-    public void api() {
-        Stack<Integer> stack = new Stack<>();
-        System.out.println("push: " + stack.push(1));
-        System.out.println("push: " + stack.push(2));
-        System.out.println("push: " + stack.push(3));
-        System.out.println("push: " + stack.push(4));
-        System.out.println("peek: " + stack.peek());
-        System.out.println("search: " + stack.search(3));
-        System.out.print("for: ");
+    public void create() {
+        stack.push(1);
+        stack.push(2);
+        stack.push(3);
+        stack.push(4);
+        System.out.println("create over: " + stack);
+    }
+
+    @Test
+    public void retrieve() {
+        this.create();
+        System.out.println(stack.peek());
+        System.out.println(stack.search(3));
+    }
+
+    @Test
+    public void delete() {
+        this.create();
+        System.out.println(stack.pop());
+        System.out.println(stack);
+    }
+
+    @Test
+    public void iteratorByForEach() {
+        for (Integer integer : stack) {
+            System.out.println(integer);
+        }
+    }
+
+    @Test
+    public void iteratorByPop() {
         while (!stack.isEmpty()) {
-            System.out.print(stack.pop() + "\t");
+            System.out.print(stack.pop() + "\0");
         }
     }
 }
