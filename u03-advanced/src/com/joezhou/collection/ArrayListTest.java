@@ -106,14 +106,12 @@ public class ArrayListTest {
         ListIterator<String> listIter = list.listIterator(0);
         while (listIter.hasNext()) {
             String e = listIter.next();
-
             if ("China".equals(e)) {
                 listIter.set("CHINA");
             }
             if ("UK".equals(e)) {
                 listIter.remove();
             }
-            // 这里打印的是set()和remove()的原值，但是list中的内容已经发生了改变
             System.out.print(e + "\0");
         }
     }
