@@ -1,6 +1,8 @@
 package com.joezhou.thread.start;
 
-/*** @author JoeZhou*/
+/**
+ * 主线程循环50次，子线程无限循环，将子线程设置成守护线程，如果主线程结束之后，子线程也结束，则子线程设置守护成功
+ * @author JoeZhou*/
 public class DaemonThreadTest {
     public static void main(String[] args) {
 
