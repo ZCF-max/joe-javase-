@@ -11,43 +11,53 @@ public class SuperTest {
         System.out.println(new Bird().getName());
         new Dog().methodA();
     }
+
+    @Test
+    public void thisTransfer() {
+        new Dog().printThisInDog();
+    }
 }
 
 class Animal {
     private String name;
 
-    public Animal() {
+    Animal() {
     }
 
-    public Animal(String name) {
+    Animal(String name) {
         this.name = name;
     }
 
-    public void move() {
-        System.out.println("动物都可以移动！");
+    void move() {
+        System.out.println("All animals can move！");
     }
 
-    public String getName() {
+    void printThisInAnimal() {
+        System.out.println("this of Animal: " + this);
+    }
+
+    String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 }
 
 class Bird extends Animal {
-    public Bird() {
-        super("精卫");
+    Bird() {
+        super("jing-wei");
     }
 }
 
 class Dog extends Animal {
-    public Dog() {
+    Dog() {
         super.move();
     }
 
-    public void methodA() {
+    void methodA() {
         super.move();
+    }
+
+    void printThisInDog() {
+        System.out.println("this in Dog: " + this);
+        printThisInAnimal();
     }
 }
