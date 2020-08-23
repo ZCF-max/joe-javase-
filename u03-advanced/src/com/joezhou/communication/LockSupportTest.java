@@ -1,13 +1,9 @@
-package com.joezhou.thread;
+package com.joezhou.communication;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.LockSupport;
 
 /**
- * unpack()如果在pack()之前被调用，则pack()会失效
- *
- * unpack-pack 比 wait-notify 更灵活，unpack可以具体指定唤醒哪个线程
- * notify只能随机唤醒
  *
  * @author JoeZhou
  */
