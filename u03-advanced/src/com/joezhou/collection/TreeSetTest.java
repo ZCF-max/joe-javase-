@@ -10,17 +10,66 @@ import java.util.*;
  */
 public class TreeSetTest {
 
-    private static class CustomComparator implements Comparator<Person> {
+    private static class Student implements Comparable<Student> {
+        private String name;
+        private int age;
 
+        Student(String name, int age) {
+            this.name = name;
+            this.age = age;
+        }
+
+        @Override
+        public String toString() {
+            return "Student [name=" + name + ", age=" + age + "]";
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            Student student = (Student) o;
+            return age == student.age &&
+                    Objects.equals(name, student.name);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(name, age);
+        }
+
+        @Override
+        public int compareTo(Student student) {
+            String prevName = this.name;
+            String nextName = student.getName();
+            int prevAge = this.age;
+            int nextAge = student.getAge();
+            return prevAge == nextAge ? prevName.compareTo(nextName) : prevAge - nextAge;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getAge() {
+            return age;
+        }
+    }
+
+    private static class CustomComparator implements Comparator<Person> {
         @Override
         public int compare(Person personA, Person personB) {
             String nameOfPersonA = personA.getName();
             String nameOfPersonB = personB.getName();
             int result = nameOfPersonA.compareTo(nameOfPersonB);
             if (result == 0) {
-                Integer ageOfPersonA = personA.getAge();
-                Integer ageOfPersonB = personB.getAge();
-                result = ageOfPersonA.compareTo(ageOfPersonB);
+                int ageOfPersonA = personA.getAge();
+                int ageOfPersonB = personB.getAge();
+                result = ageOfPersonA - ageOfPersonB;
             }
             return result;
         }
@@ -62,29 +111,14 @@ public class TreeSetTest {
             return name;
         }
 
-        public void setName(String name) {
-            this.name = name;
-        }
-
         public int getAge() {
             return age;
         }
-
-        public void setAge(int age) {
-            this.age = age;
-        }
-    }
-
-
-    private TreeSet<String> treeSet;
-
-    @Before
-    public void before() {
-        treeSet = new TreeSet<>();
     }
 
     @Test
     public void naturalSort() {
+        TreeSet<String> treeSet = new TreeSet<>();
         treeSet.add("abc");
         treeSet.add("aac");
         treeSet.add("abb");
@@ -96,13 +130,25 @@ public class TreeSetTest {
     }
 
     @Test
+    public void sortByComparable() {
+        TreeSet<Student> treeSet = new TreeSet<>();
+        Student studentA = new Student("aaa", 50);
+        Student studentB = new Student("ccc", 30);
+        Student studentC = new Student("bbb", 30);
+        treeSet.add(studentA);
+        treeSet.add(studentB);
+        treeSet.add(studentC);
+        System.out.println(treeSet);
+    }
+
+    @Test
     public void sortByComparator() {
-        Set<Person> set = new TreeSet<>(new CustomComparator());
-        set.add(new Person("b", 18));
-        set.add(new Person("b", 15));
-        set.add(new Person("a", 9));
-        set.add(new Person("a", 9));
-        System.out.println(set);
+        Set<Person> treeSet = new TreeSet<>(new CustomComparator());
+        treeSet.add(new Person("b", 18));
+        treeSet.add(new Person("b", 15));
+        treeSet.add(new Person("a", 9));
+        treeSet.add(new Person("a", 9));
+        System.out.println(treeSet);
     }
 
 
