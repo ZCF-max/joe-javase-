@@ -3,36 +3,42 @@ package com.joezhou.collection;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.HashMap;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * @author JoeZhou
  */
 public class EnumMapTest {
 
-    private HashMap<String, Object> hashMap;
+    private enum Color {
+        /**
+         * some color
+         */
+        RED, GREEN, BLUE, YELLOW, WHITE, BLACK, PINK, GRAY
+    }
+
+    private EnumMap<Color, String> enumMap;
 
     @Before
     public void before() {
-        hashMap = new HashMap<>(5);
+        enumMap = new EnumMap<>(Color.class);
     }
 
     @Test
-    public void create() {
-        /*EnumMap<Week, String> map = new EnumMap<>(Week.class);
-        map.put(Week.MON, "星期一");
-        map.put(Week.TUE, "星期二");
-        map.put(Week.WED, "星期三");
-        map.put(Week.THU, "星期四");
-        map.put(Week.FRI, "星期五");
-        map.put(Week.SAT, "星期六");
-        map.put(Week.SUN, "星期日");
+    public void enumMap() {
+        enumMap.put(Color.RED, "red");
+        enumMap.put(Color.GREEN, "green");
+        enumMap.put(Color.BLUE, "blue");
+        enumMap.put(Color.YELLOW, "yellow");
+        enumMap.put(Color.WHITE, "white");
+        enumMap.put(Color.BLACK, "black");
+        enumMap.put(Color.PINK, "pink");
+        enumMap.put(Color.GRAY, "gray");
 
-        Set<Map.Entry<Week,String>> set = map.entrySet();
-        for (Map.Entry<Week,String> e : set){
-            System.out.println(e.getKey() + " : " + e.getValue());
-        }*/
+        Set<Map.Entry<Color, String>> colors = enumMap.entrySet();
+        for (Map.Entry<Color, String> e : colors) {
+            System.out.println(e.getKey() + ": " + e.getValue());
+        }
     }
 
 }

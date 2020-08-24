@@ -13,7 +13,7 @@ public class EnumSetTest {
         /**
          * some color
          */
-        RED, GREEN, BLUE, YELLOW, WHITE, BLACK, PINK, GRAY;
+        RED, GREEN, BLUE, YELLOW, WHITE, BLACK, PINK, GRAY
     }
 
     @Test

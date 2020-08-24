@@ -12,11 +12,11 @@ import java.util.ListIterator;
  */
 public class IteratorTest {
 
-    private List<Integer> arrayList;
+    private List<Integer> arrayList = null;
 
     @Before
     public void before() {
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0, j = 20; i < j; i++) {
             arrayList.add(i);
         }
     }
@@ -35,7 +35,6 @@ public class IteratorTest {
 
     @Test
     public void listIterator() {
-        Iterator<Integer> iterator = arrayList.iterator();
         ListIterator<Integer> listIter = arrayList.listIterator(0);
         while (listIter.hasNext()) {
             int e = listIter.next();
