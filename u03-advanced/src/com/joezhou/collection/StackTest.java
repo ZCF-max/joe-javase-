@@ -43,8 +43,8 @@ public class StackTest {
 
     @Test
     public void iteratorByForEach() {
-        for (Integer integer : stack) {
-            System.out.println(integer);
+        for (int e : stack) {
+            System.out.println(e);
         }
     }
 
