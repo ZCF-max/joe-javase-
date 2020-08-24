@@ -1,12 +1,10 @@
 package com.joezhou.collection;
 
-import com.sun.xml.internal.bind.v2.runtime.output.SAXOutput;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Stack;
 
 /**
  * @author JoeZhou
@@ -22,10 +20,10 @@ public class QueueTest {
 
     @Test
     public void create() {
-        System.out.println(queue.add(1) ? "add success" : "add fail");
-        System.out.println(queue.add(2) ? "add success" : "add fail");
-        System.out.println(queue.offer(3) ? "offer success" : "offer fail");
-        System.out.println(queue.offer(4) ? "offer success" : "offer fail");
+        queue.add(1);
+        queue.add(2);
+        queue.offer(3);
+        queue.offer(4);
         System.out.println("create over: " + queue);
     }
 
@@ -46,13 +44,15 @@ public class QueueTest {
 
     @Test
     public void iteratorByForEach() {
+        this.create();
         for (int e : queue) {
-            System.out.println(e);
+            System.out.print(e + "\0");
         }
     }
 
     @Test
     public void iteratorByPoll() {
+        this.create();
         while (!queue.isEmpty()) {
             System.out.println("poll: " + queue.poll());
         }
