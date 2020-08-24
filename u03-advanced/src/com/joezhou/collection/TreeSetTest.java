@@ -20,6 +20,15 @@ public class TreeSetTest {
         }
 
         @Override
+        public int compareTo(Student student) {
+            String prevName = this.name;
+            String nextName = student.getName();
+            int prevAge = this.age;
+            int nextAge = student.getAge();
+            return prevAge == nextAge ? prevName.compareTo(nextName) : prevAge - nextAge;
+        }
+
+        @Override
         public String toString() {
             return "Student [name=" + name + ", age=" + age + "]";
         }
@@ -40,15 +49,6 @@ public class TreeSetTest {
         @Override
         public int hashCode() {
             return Objects.hash(name, age);
-        }
-
-        @Override
-        public int compareTo(Student student) {
-            String prevName = this.name;
-            String nextName = student.getName();
-            int prevAge = this.age;
-            int nextAge = student.getAge();
-            return prevAge == nextAge ? prevName.compareTo(nextName) : prevAge - nextAge;
         }
 
         public String getName() {
@@ -132,9 +132,9 @@ public class TreeSetTest {
     @Test
     public void sortByComparable() {
         TreeSet<Student> treeSet = new TreeSet<>();
-        Student studentA = new Student("aaa", 50);
-        Student studentB = new Student("ccc", 30);
-        Student studentC = new Student("bbb", 30);
+        Student studentA = new Student("a", 50);
+        Student studentB = new Student("c", 30);
+        Student studentC = new Student("b", 30);
         treeSet.add(studentA);
         treeSet.add(studentB);
         treeSet.add(studentC);
