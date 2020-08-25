@@ -25,40 +25,31 @@ public class BufferTest {
     }
 
     @Test
-    public void byteBufferTest() {
+    public void bufferApi() {
         ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
-        byteBuffer.put("hello".getBytes());
+        byteBuffer.put("hello".getBytes(), 0, 5);
         byteBuffer.put("world".getBytes());
+        System.out.println("data: " + new String(byteBuffer.array()));
 
         byteBuffer.flip();
-        System.out.println("flip: " + new String(byteBuffer.array()));
+        System.out.print("flip: ");
+        System.out.print((char) byteBuffer.get(3));
+        System.out.print((char) byteBuffer.get());
+        System.out.println((char) byteBuffer.get());
 
         byteBuffer.rewind();
-        System.out.println("rewind: " + new String(byteBuffer.array()));
+        System.out.print("rewind: ");
+        System.out.print((char) byteBuffer.get());
+        System.out.println((char) byteBuffer.get());
 
         byteBuffer.clear();
         System.out.print("clear: ");
         System.out.print((char) byteBuffer.get());
-        System.out.print((char) byteBuffer.get());
+        System.out.println((char) byteBuffer.get());
 
-        System.out.print("\nremaining: ");
+        System.out.print("remaining: ");
         if (byteBuffer.hasRemaining()) {
             System.out.println(byteBuffer.remaining());
         }
-    }
-
-    @Test
-    public void work01() {
-        ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
-        byteBuffer.put("abcdefg".getBytes());
-        byteBuffer.flip();
-        byteBuffer.position(2).mark();
-        System.out.print((char) byteBuffer.get());
-        System.out.print((char) byteBuffer.get());
-        System.out.print((char) byteBuffer.get());
-        byteBuffer.reset();
-        System.out.print((char) byteBuffer.get());
-        System.out.print((char) byteBuffer.get());
-        System.out.print((char) byteBuffer.get());
     }
 }

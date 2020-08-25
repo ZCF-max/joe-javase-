@@ -14,6 +14,9 @@ import java.nio.channels.FileChannel;
  */
 public class ChannelTest {
 
+    /**
+     * copy `nio-src.txt` to `nio-dest.txt`
+     */
     @Test
     public void fileChannel() throws IOException {
         String srcPath = "D:" + File.separator + "java-io" + File.separator + "nio-src.txt";
@@ -36,5 +39,6 @@ public class ChannelTest {
         fisChannel.close();
         fis.close();
         fos.close();
+        System.out.println("copy over...");
     }
 }
