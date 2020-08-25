@@ -70,49 +70,6 @@ public class WorkTest {
         }
     }
 
-    private static class StringDemo implements Comparable<StringDemo> {
-        private String value;
-
-        public StringDemo(String value) {
-            this.value = value;
-        }
-
-        @Override
-        public int compareTo(StringDemo o) {
-            int prevLength = value.length();
-            int nextLength = o.getValue().length();
-            return prevLength == nextLength ? 1 : prevLength - nextLength;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) {
-                return true;
-            }
-            if (o == null || getClass() != o.getClass()) {
-                return false;
-            }
-            StringDemo that = (StringDemo) o;
-            return Objects.equals(value, that.value);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(value);
-        }
-
-        @Override
-        public String toString() {
-            return "{" +
-                    "value='" + value + '\'' +
-                    '}';
-        }
-
-        public String getValue() {
-            return value;
-        }
-    }
-
     @Test
     public void customArrayList() {
         CustomArrayList<Student> list = new CustomArrayList<>();
@@ -192,17 +149,24 @@ public class WorkTest {
 
     @Test
     public void sortedByStringLength() {
-        Set<StringDemo> set = new TreeSet<>();
-        set.add(new StringDemo("a"));
-        set.add(new StringDemo("bc"));
-        set.add(new StringDemo("aaa"));
-        set.add(new StringDemo("aaaa"));
-        set.add(new StringDemo("bbab"));
-        set.add(new StringDemo("cdfa"));
-        set.add(new StringDemo("b"));
-        set.add(new StringDemo("c"));
-        for (StringDemo stringDemo : set) {
-            System.out.println(stringDemo);
+        Set<String> set = new TreeSet<>(new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                int prevLength = o1.length();
+                int nextLength = o2.length();
+                return prevLength == nextLength ? 1 : prevLength - nextLength;
+            }
+        });
+        set.add("a");
+        set.add("bc");
+        set.add("aaa");
+        set.add("aaaa");
+        set.add("bbab");
+        set.add("cdfa");
+        set.add("b");
+        set.add("c");
+        for (String str : set) {
+            System.out.println(str);
         }
     }
 
