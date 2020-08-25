@@ -52,19 +52,4 @@ public class BufferTest {
             System.out.println(byteBuffer.remaining());
         }
     }
-
-    @Test
-    public void work01() {
-        ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
-        byteBuffer.put("abcdefg".getBytes());
-        byteBuffer.flip();
-        byteBuffer.position(2).mark();
-        System.out.print((char) byteBuffer.get());
-        System.out.print((char) byteBuffer.get());
-        System.out.print((char) byteBuffer.get());
-        byteBuffer.reset();
-        System.out.print((char) byteBuffer.get());
-        System.out.print((char) byteBuffer.get());
-        System.out.print((char) byteBuffer.get());
-    }
 }
