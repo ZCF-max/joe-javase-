@@ -39,5 +39,6 @@ public class ChannelTest {
         fisChannel.close();
         fis.close();
         fos.close();
+        System.out.println("copy over...");
     }
 }
