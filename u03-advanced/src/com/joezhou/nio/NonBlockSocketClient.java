@@ -4,28 +4,29 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
-import java.nio.CharBuffer;
+import java.net.SocketAddress;
+import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
-import java.nio.charset.CharsetEncoder;
-import java.nio.charset.StandardCharsets;
 
 /**
  * @author JoeZhou
  */
 public class NonBlockSocketClient {
     public static void main(String[] args) throws IOException {
-        SocketChannel socketChannel = SocketChannel.open(
-                new InetSocketAddress("127.0.0.1", 9002));
+        String ip = "127.0.0.1";
+        int port = 9002;
+        SocketAddress socketAddress = new InetSocketAddress(ip, port);
+        SocketChannel socketChannel = SocketChannel.open(socketAddress);
         socketChannel.configureBlocking(false);
-        CharBuffer charBuffer = CharBuffer.allocate(1024);
+        ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
+        System.out.println("please input your message...");
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        CharsetEncoder charsetEncoder = StandardCharsets.UTF_8.newEncoder();
         String str;
         while ((str = br.readLine()) != null) {
-            charBuffer.put("=> " + str);
-            charBuffer.flip();
-            socketChannel.write(charsetEncoder.encode(charBuffer));
-            charBuffer.clear();
+            byteBuffer.put(("=> " + str).getBytes());
+            byteBuffer.flip();
+            socketChannel.write(byteBuffer);
+            byteBuffer.clear();
         }
         br.close();
         socketChannel.close();

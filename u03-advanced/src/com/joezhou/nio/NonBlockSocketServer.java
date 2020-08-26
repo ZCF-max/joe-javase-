@@ -2,14 +2,12 @@ package com.joezhou.nio;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.net.SocketAddress;
 import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 
 /**
@@ -17,11 +15,12 @@ import java.util.Iterator;
  */
 public class NonBlockSocketServer {
     public static void main(String[] args) throws IOException {
-        ServerSocketChannel serverSocketChannel = ServerSocketChannel.open()
-                .bind(new InetSocketAddress(9002));
+        int port = 9002;
+        ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
+        SocketAddress socketAddress = new InetSocketAddress(port);
+        serverSocketChannel.bind(socketAddress);
         serverSocketChannel.configureBlocking(false);
         System.out.println("ready to accept data...");
-        CharsetDecoder charsetDecoder = StandardCharsets.UTF_8.newDecoder();
         Selector selector = Selector.open();
         serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
         SocketChannel socketChannel = null;
@@ -33,15 +32,13 @@ public class NonBlockSocketServer {
                     socketChannel = serverSocketChannel.accept();
                     socketChannel.configureBlocking(false);
                     socketChannel.register(selector, SelectionKey.OP_READ);
-                }
-                else if (selectionKey.isReadable()) {
+                } else if (selectionKey.isReadable()) {
                     socketChannel = (SocketChannel) selectionKey.channel();
                     ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
                     while (socketChannel.read(byteBuffer) > 0) {
                         byteBuffer.flip();
-                        CharBuffer charBuffer = charsetDecoder.decode(byteBuffer);
-                        for (int i = 0, j = charBuffer.limit(); i < j; i++) {
-                            System.out.print(charBuffer.get());
+                        for (int i = 0, j = byteBuffer.limit(); i < j; i++) {
+                            System.out.print((char) byteBuffer.get());
                         }
                         System.out.println();
                         byteBuffer.clear();
