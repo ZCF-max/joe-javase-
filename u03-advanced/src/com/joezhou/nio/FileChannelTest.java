@@ -12,7 +12,7 @@ import java.nio.channels.FileChannel;
 /**
  * @author JoeZhou
  */
-public class ChannelTest {
+public class FileChannelTest {
 
     /**
      * copy `nio-src.txt` to `nio-dest.txt`
