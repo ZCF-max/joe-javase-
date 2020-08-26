@@ -23,11 +23,18 @@ public class NonBlockSocketServer {
         System.out.println("ready to accept data...");
         Selector selector = Selector.open();
         serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
+
         SocketChannel socketChannel = null;
         while (selector.select() > 0) {
             Iterator<SelectionKey> it = selector.selectedKeys().iterator();
             while (it.hasNext()) {
                 SelectionKey selectionKey = it.next();
+                if (selectionKey.isConnectable()) {
+                    socketChannel = serverSocketChannel.accept();
+                    socketChannel.configureBlocking(false);
+                    System.out.println(socketChannel.getLocalAddress());
+                }
+
                 if (selectionKey.isAcceptable()) {
                     socketChannel = serverSocketChannel.accept();
                     socketChannel.configureBlocking(false);
@@ -52,4 +59,5 @@ public class NonBlockSocketServer {
         }
         serverSocketChannel.close();
     }
+
 }
