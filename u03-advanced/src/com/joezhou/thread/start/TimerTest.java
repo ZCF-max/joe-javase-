@@ -1,36 +1,56 @@
 package com.joezhou.thread.start;
 
+import lombok.SneakyThrows;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
-public class TimerTest{
-	public static void main(String[] args) throws IOException {
-		Timer timer = new Timer();// 定时对象
-		MyTask myTask = new MyTask();// 定时任务
-		timer.schedule(myTask, 0, 1000);// 0毫秒后，每隔1000毫秒执行一次myTask
-		if (System.in.read() == 'q') {
-			// timer.cancel(); // 关闭schedule
-			myTask.setFlag(false);// 闹钟设置为不响
-		}
-	}
+/**
+ * @author JoeZhou
+ */
+public class TimerTest {
+
+    private static class AlarmClockTask extends TimerTask {
+
+        private boolean ring;
+
+        @SneakyThrows
+        @Override
+        public void run() {
+            Date now = new Date();
+            String pattern = "HH:mm:ss";
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+            String dateStr = simpleDateFormat.format(now);
+            String str = "16:45:00";
+            if (str.equals(dateStr)) {
+                ring = true;
+                for (int i = 0,j=3; i < j; i++) {
+                    System.out.println("Got up.....");
+                    TimeUnit.SECONDS.sleep(1L);
+                }
+
+            }
+
+        }
+
+        void setRing(boolean ring) {
+            this.ring = ring;
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
+        Timer timer = new Timer();
+        AlarmClockTask alarmClockTask = new AlarmClockTask();
+        timer.schedule(alarmClockTask, 0, 1000);
+        char exitFlag = 'q';
+        if (System.in.read() == exitFlag) {
+            timer.cancel();
+            alarmClockTask.setRing(false);
+        }
+    }
 }
 
-class MyTask extends TimerTask {
-	private boolean flag = false;// 闹钟标志位 - 不响
-	@Override
-	public void run() {
-		String dateStr = new SimpleDateFormat("hhmmss").format(new Date());// 获取系统时间格式化成时分秒
-		// System.out.println(dateStr);
-		if ("060000".equals(dateStr)) {// 每日早晨6点
-			flag = true;// 闹钟标志位 - 响
-		}
-		if (flag) {
-			System.out.println("起床了.....");
-		}
-	}
-	public boolean isFlag() {return flag;}
-	public void setFlag(boolean flag) {this.flag = flag;}
-}
