@@ -2,7 +2,7 @@ package com.joezhou.nio;
 
 import org.junit.Test;
 
-import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
 
 /**
  * @author JoeZhou
@@ -11,18 +11,16 @@ public class WorkTest {
 
     @Test
     public void markAndReset() {
-        String str = "abcdefg";
-        ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
-        byteBuffer.put(str.getBytes());
-        byteBuffer.flip();
-        byteBuffer.position(2).mark();
-        System.out.print((char) byteBuffer.get());
-        System.out.print((char) byteBuffer.get());
-        System.out.print((char) byteBuffer.get());
-        byteBuffer.reset();
-        System.out.print((char) byteBuffer.get());
-        System.out.print((char) byteBuffer.get());
-        System.out.print((char) byteBuffer.get());
+        String str = "encoder";
+        CharBuffer charBuffer = CharBuffer.allocate(1024);
+        charBuffer.put(str);
+        charBuffer.flip();
+        charBuffer.position(2).mark();
+        System.out.print(charBuffer.get());
+        System.out.print(charBuffer.get());
+        charBuffer.reset();
+        System.out.print(charBuffer.get());
+        System.out.print(charBuffer.get());
     }
 
 }
