@@ -2,6 +2,7 @@ package com.joezhou.nio;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.channels.ServerSocketChannel;
@@ -14,8 +15,10 @@ import java.nio.charset.StandardCharsets;
  */
 public class BlockSocketServerByZh {
     public static void main(String[] args) throws IOException {
-        ServerSocketChannel serverSocketChannel = ServerSocketChannel.open()
-                .bind(new InetSocketAddress(9001));
+        int port = 9001;
+        SocketAddress socketAddress = new InetSocketAddress(port);
+        ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
+        serverSocketChannel.bind(socketAddress);
         System.out.println("ready to accept data...");
         SocketChannel socketChannel = serverSocketChannel.accept();
         ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
