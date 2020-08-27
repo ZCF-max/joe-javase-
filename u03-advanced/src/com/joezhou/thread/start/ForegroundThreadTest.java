@@ -9,7 +9,16 @@ import java.io.IOException;
  */
 public class ForegroundThreadTest {
 
-    private static class CustomThread extends Thread {
+    private static class SubThread extends Thread {
+        @Override
+        public void run() {
+            for (int i = 0, j = 10; i < j; i++) {
+                System.out.println(i);
+            }
+        }
+    }
+
+    private static class SubRunnable implements Runnable {
         @Override
         public void run() {
             for (int i = 0, j = 10; i < j; i++) {
@@ -20,8 +29,8 @@ public class ForegroundThreadTest {
 
     @Test
     public void buildByThread() throws IOException {
-        CustomThread customThread = new CustomThread();
-        customThread.start();
+        SubThread thread = new SubThread();
+        thread.start();
         System.out.println(System.in.read());
     }
 
@@ -39,23 +48,34 @@ public class ForegroundThreadTest {
     }
 
     @Test
-    public void buildByRunnable() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                for (int i = 1; i < 10; i++) {
-                    System.out.println(Thread.currentThread());
-                }
-            }
-        }).start();
+    public void buildByRunnable() throws IOException {
+        SubRunnable subRunnable = new SubRunnable();
+        Thread thread = new Thread(subRunnable);
+        thread.start();
+        System.out.println(System.in.read());
     }
 
     @Test
-    public void buildByLambda() {
+    public void buildByInnerRunnable() throws IOException {
+        Thread thread = new Thread(new Runnable(){
+            @Override
+            public void run() {
+                for (int i = 0, j = 10; i < j; i++) {
+                    System.out.println(i);
+                }
+            }
+        });
+        thread.start();
+        System.out.println(System.in.read());
+    }
+
+    @Test
+    public void buildByLambda() throws IOException {
         new Thread(() -> {
-            for (int i = 0, j = 99; i < j; i++) {
-                System.out.println(Thread.currentThread());
+            for (int i = 0, j = 10; i < j; i++) {
+                System.out.println(i);
             }
         }).start();
+        System.out.println(System.in.read());
     }
 }
