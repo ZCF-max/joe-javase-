@@ -7,7 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author JoeZhou
@@ -28,13 +27,10 @@ public class TimerTest {
             String str = "16:45:00";
             if (str.equals(dateStr)) {
                 ring = true;
-                for (int i = 0,j=3; i < j; i++) {
-                    System.out.println("Got up.....");
-                    TimeUnit.SECONDS.sleep(1L);
-                }
-
             }
-
+            if(ring){
+                System.out.println("Got up.....");
+            }
         }
 
         void setRing(boolean ring) {
