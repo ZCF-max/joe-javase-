@@ -1,5 +1,6 @@
 package com.joezhou.thread.start;
 
+import org.junit.After;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -24,7 +25,10 @@ public class ThreadStateTest {
 
         thread.join();
         System.out.println(thread.getState());
+    }
 
+    @After
+    public void after() throws IOException {
         System.out.println(System.in.read());
     }
 }

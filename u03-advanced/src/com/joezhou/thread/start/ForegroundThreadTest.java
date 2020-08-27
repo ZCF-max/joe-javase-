@@ -1,5 +1,6 @@
 package com.joezhou.thread.start;
 
+import org.junit.After;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -28,14 +29,13 @@ public class ForegroundThreadTest {
     }
 
     @Test
-    public void buildByThread() throws IOException {
+    public void buildByThread() {
         SubThread thread = new SubThread();
         thread.start();
-        System.out.println(System.in.read());
     }
 
     @Test
-    public void buildByInnerThread() throws IOException {
+    public void buildByInnerThread() {
         new Thread() {
             @Override
             public void run() {
@@ -44,20 +44,18 @@ public class ForegroundThreadTest {
                 }
             }
         }.start();
-        System.out.println(System.in.read());
     }
 
     @Test
-    public void buildByRunnable() throws IOException {
+    public void buildByRunnable() {
         SubRunnable subRunnable = new SubRunnable();
         Thread thread = new Thread(subRunnable);
         thread.start();
-        System.out.println(System.in.read());
     }
 
     @Test
-    public void buildByInnerRunnable() throws IOException {
-        Thread thread = new Thread(new Runnable(){
+    public void buildByInnerRunnable() {
+        Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 for (int i = 0, j = 10; i < j; i++) {
@@ -66,16 +64,20 @@ public class ForegroundThreadTest {
             }
         });
         thread.start();
-        System.out.println(System.in.read());
     }
 
     @Test
-    public void buildByLambda() throws IOException {
+    public void buildByLambda() {
         new Thread(() -> {
             for (int i = 0, j = 10; i < j; i++) {
                 System.out.println(i);
             }
         }).start();
+
+    }
+
+    @After
+    public void after() throws IOException {
         System.out.println(System.in.read());
     }
 }
