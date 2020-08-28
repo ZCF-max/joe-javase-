@@ -1,16 +1,19 @@
 package com.joezhou.thread.start;
 
+import lombok.SneakyThrows;
+import org.junit.After;
 import org.junit.Test;
 
 /**
  * @author JoeZhou
  */
-public class OrderReorderingTest {
+public class CommandReorderingTest {
 
-    private /*volatile*/ int x = 0, y = 0, a = 0, b = 0;
+    private volatile int x = 0, y = 0, a = 0, b = 0;
 
+    @SneakyThrows
     @Test
-    public void orderReorder() throws Exception {
+    public void orderReorder() {
 
         int count = 0;
 
@@ -18,20 +21,20 @@ public class OrderReorderingTest {
 
             count++;
 
-            Thread t01 = new Thread(() -> {
+            Thread threadA = new Thread(() -> {
                 a = 1;
                 x = b;
             });
 
-            Thread t02 = new Thread(() -> {
+            Thread threadB = new Thread(() -> {
                 b = 1;
                 y = a;
             });
 
-            t01.start();
-            t02.start();
-            t01.join();
-            t02.join();
+            threadA.start();
+            threadB.start();
+            threadA.join();
+            threadB.join();
 
             System.out.printf("第%d次：x=%d，y=%d\n", count, x, y);
 
@@ -44,7 +47,11 @@ public class OrderReorderingTest {
                 b = 0;
             }
         }
+    }
 
+    @SneakyThrows
+    @After
+    public void after(){
         System.out.println(System.in.read());
     }
 }

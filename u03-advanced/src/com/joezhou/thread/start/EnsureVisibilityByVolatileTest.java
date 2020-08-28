@@ -15,7 +15,6 @@ public class EnsureVisibilityByVolatileTest {
 
         private volatile boolean stop;
 
-        @SneakyThrows
         @Override
         public void run() {
 
@@ -43,6 +42,5 @@ public class EnsureVisibilityByVolatileTest {
     public void after() {
         System.out.println(System.in.read());
     }
-
 }
 
