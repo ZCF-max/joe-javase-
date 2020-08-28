@@ -12,9 +12,9 @@ public class CacheLinePaddingTest {
     private final static long COUNT = 1_0000_0000L;
 
     private static class Demo {
-        public long p1, p2, p3, p4, p5, p6, p7;
-        public volatile long x = 0L;
-        public long p9, p10, p11, p12, p13, p14, p15;
+        //private long p1, p2, p3, p4, p5, p6, p7;
+        private volatile long x = 0L;
+        //private long p9, p10, p11, p12, p13, p14, p15;
     }
 
     private static Demo[] demos = new Demo[2];
