@@ -1,42 +1,51 @@
 package com.joezhou.thread.sync;
 
+import lombok.SneakyThrows;
+import org.junit.After;
+import org.junit.Test;
+
+import java.util.concurrent.TimeUnit;
+
 /**
- * 发现因为线程之间互相争抢资源，所以会出现两个售票点重复卖票的情况。
- * @author JoeZhou*/
+ * @author JoeZhou
+ */
 public class TicketSellTest {
-    public static void main(String[] args) {
-        Ticket ticket = new Ticket();
-        Thread t1 = new Thread(ticket);
-        Thread t2 = new Thread(ticket);
-        t1.setName("江北售票点：");
-        t2.setName("香坊售票点：");
-        t1.start();
-        t2.start();
-    }
-}
 
-/**@author Joe*/
-class Ticket implements Runnable {
+    private static class Ticket implements Runnable {
 
-    /** 票号 */
-    private Integer ticketNo = 0;
+        private int ticketNo;
 
-    @Override
-    public void run() {
-        while (true) {
-            try {
-                Thread.sleep(1000);
-                sell();
-            } catch (InterruptedException e) { 
-                e.printStackTrace(); 
+        @SneakyThrows
+        @Override
+        public  void run() {
+            while (true) {
+                TimeUnit.SECONDS.sleep(1L);
+                sellTicket();
+            }
+        }
+
+        private /*synchronized*/ void sellTicket() {
+            int maxNo = 100;
+            if (ticketNo < maxNo) {
+                ticketNo++;
+                String threadName = Thread.currentThread().getName();
+                System.out.println(threadName + "卖票: " + ticketNo);
             }
         }
     }
 
-    private void sell() {
-        int max = 100;
-        if(ticketNo < max){
-           System.out.println(Thread.currentThread().getName() + "卖了第" + (++ticketNo) + "张票"); 
-        }
+    @Test
+    public void sellTicket() {
+        Ticket ticket = new Ticket();
+        new Thread(ticket, "thread-A").start();
+        new Thread(ticket, "thread-B").start();
+    }
+
+    @SneakyThrows
+    @After
+    public void after() {
+        System.out.println(System.in.read());
     }
 }
+
+
