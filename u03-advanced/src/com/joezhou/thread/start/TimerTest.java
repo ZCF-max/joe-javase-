@@ -2,7 +2,6 @@ package com.joezhou.thread.start;
 
 import lombok.SneakyThrows;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Timer;
@@ -17,7 +16,6 @@ public class TimerTest {
 
         private boolean ring;
 
-        @SneakyThrows
         @Override
         public void run() {
             Date now = new Date();
@@ -28,7 +26,7 @@ public class TimerTest {
             if (str.equals(dateStr)) {
                 ring = true;
             }
-            if(ring){
+            if (ring) {
                 System.out.println("Got up.....");
             }
         }
@@ -38,7 +36,8 @@ public class TimerTest {
         }
     }
 
-    public static void main(String[] args) throws IOException {
+    @SneakyThrows
+    public static void main(String[] args) {
         Timer timer = new Timer();
         AlarmClockTask alarmClockTask = new AlarmClockTask();
         timer.schedule(alarmClockTask, 0, 1000);
