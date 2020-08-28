@@ -21,7 +21,9 @@ public class EnsureVisibilityByVolatileTest {
 
             // must be empty body to block the current thread
             // Always read the flag in L1 cache
-            while (!stop) {}
+            while (!stop) {
+
+            }
             System.out.println("thread-sub: over");
         }
     }
