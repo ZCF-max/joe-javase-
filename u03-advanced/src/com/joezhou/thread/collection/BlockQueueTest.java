@@ -1,4 +1,4 @@
-package com.joezhou.thread;
+package com.joezhou.thread.collection;
 
 import org.junit.Test;
 
@@ -10,6 +10,34 @@ import java.util.concurrent.*;
  * @author JoeZhou
  */
 public class BlockQueueTest {
+
+    private static class MyTask implements Delayed {
+
+        private String taskName;
+        private Long time;
+
+        MyTask(String taskName, Long time) {
+            this.taskName = taskName;
+            this.time = time;
+        }
+
+        @Override
+        public long getDelay(TimeUnit unit) {
+            return unit.convert(time - System.currentTimeMillis(), TimeUnit.MILLISECONDS);
+        }
+
+        @Override
+        public int compareTo(Delayed o) {
+            // (x < y) ? -1 : ((x == y) ? 0 : 1)
+            return Long.compare(this.getDelay(TimeUnit.MILLISECONDS), o.getDelay(TimeUnit.MILLISECONDS));
+        }
+
+        @Override
+        public String toString() {
+            return taskName + ":" + time;
+        }
+    }
+
 
     @Test
     public void linkedBlockingDeque() throws IOException {
@@ -57,7 +85,7 @@ public class BlockQueueTest {
     }
 
     @Test
-    public void delayQueue() throws Exception {
+    public void delayQueue() throws Exception  {
         // DelayQueue可以按照时间来进行任务调度
         BlockingQueue<MyTask> list = new DelayQueue<>();
         long now = System.currentTimeMillis();
@@ -117,33 +145,5 @@ public class BlockQueueTest {
 
         System.out.println(System.in.read());
     }
-
-    static class MyTask implements Delayed {
-
-        private String taskName;
-        private Long time;
-
-        MyTask(String taskName, Long time) {
-            this.taskName = taskName;
-            this.time = time;
-        }
-
-        @Override
-        public long getDelay(TimeUnit unit) {
-            return unit.convert(time - System.currentTimeMillis(), TimeUnit.MILLISECONDS);
-        }
-
-        @Override
-        public int compareTo(Delayed o) {
-            // (x < y) ? -1 : ((x == y) ? 0 : 1)
-            return Long.compare(this.getDelay(TimeUnit.MILLISECONDS), o.getDelay(TimeUnit.MILLISECONDS));
-        }
-
-        @Override
-        public String toString() {
-            return taskName + ":" + time;
-        }
-    }
-
 
 }

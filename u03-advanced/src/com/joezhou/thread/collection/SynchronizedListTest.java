@@ -2,10 +2,7 @@ package com.joezhou.thread.collection;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Vector;
+import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -30,16 +27,16 @@ public class SynchronizedListTest {
 
     @Test
     public void concurrentLinkedQueue() {
-        // CAS
-        ConcurrentLinkedQueue<String> queue = new ConcurrentLinkedQueue<>();
+        // CAS，高并发时效率比较高。
+        Queue<String> queue = new ConcurrentLinkedQueue<>();
         queue.add("赵四");
         System.out.println(queue.poll());
     }
 
     @Test
     public void copyOnWriteArrayList() {
-        // 写时加锁复制，读时不加锁，适用于读线程远远多于写线程的情景
-        CopyOnWriteArrayList<String> list = new CopyOnWriteArrayList<>();
+        // 写时进行加锁复制，读时不加锁，适用于读线程远远多于写线程的情景
+        List<String> list = new CopyOnWriteArrayList<>();
         list.add("赵四");
         System.out.println(list.get(0));
     }

@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentSkipListMap;
 public class SynchronizedMapTest {
 
     @Test
-    public void hashTable() {
+    public void hashtable() {
         Hashtable<String, Object> hashtable = new Hashtable<>();
         hashtable.put("name", "赵四");
         hashtable.put("gender", "male");
@@ -27,7 +27,7 @@ public class SynchronizedMapTest {
     }
 
     @Test
-    public void synchronizedMap() {
+    public void synchronizedHashMap() {
         Map<Object, Object> map = Collections.synchronizedMap(new HashMap<>(3));
     }
 
@@ -38,8 +38,8 @@ public class SynchronizedMapTest {
 
     @Test
     public void concurrentSkipListMap() {
-        // concurrentTreeMap + CAS 太复杂了，所以没有设计，而是设计了一个跳表数据结构的ConcurrentSkipListMap
-        // 它适用于高并发，且它可以排序
-        ConcurrentSkipListMap<Object, Object> hashMap = new ConcurrentSkipListMap<>();
+        // ConcurrentSkipListMap是一个跳表数据结构的高并发Map，查询效率高。
+        // 它适用于高并发，且它可以排序，用于替代concurrentTreeMap(不存在，因为树结构的CAS太复杂)
+        Map<Object, Object> hashMap = new ConcurrentSkipListMap<>();
     }
 }
