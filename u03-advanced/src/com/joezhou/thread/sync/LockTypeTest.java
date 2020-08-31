@@ -7,9 +7,7 @@ import org.junit.Test;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 测试同步方法的锁的类型，我们让线程A走同步代码块，让线程B走同步方法，如果仍旧发生同步现象，则代表同步方法中的锁和测试中同步代码块中的锁一致。
- *
- * @author Joe
+ * @author JoeZhou
  */
 public class LockTypeTest {
 
