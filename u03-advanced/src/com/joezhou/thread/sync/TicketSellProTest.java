@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author JoeZhou
  */
-public class TicketSellTest {
+public class TicketSellProTest {
 
     private static class Ticket implements Runnable {
 
@@ -24,12 +24,14 @@ public class TicketSellTest {
             }
         }
 
-        private void sellTicket() {
+        private /*synchronized*/ void sellTicket() {
             int maxNo = 100;
-            if (ticketNo < maxNo) {
-                ticketNo++;
-                String threadName = Thread.currentThread().getName();
-                System.out.println(threadName + "卖票: " + ticketNo);
+            synchronized (this) {
+                if (ticketNo < maxNo) {
+                    ticketNo++;
+                    String threadName = Thread.currentThread().getName();
+                    System.out.println(threadName + "卖票: " + ticketNo);
+                }
             }
         }
     }

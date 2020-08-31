@@ -1,53 +1,108 @@
 package com.joezhou.thread.sync;
 
+import lombok.SneakyThrows;
+import org.junit.After;
+import org.junit.Test;
+
+import java.util.concurrent.TimeUnit;
+
 /**
-* 测试同步方法的锁的类型，我们让线程A走同步代码块，让线程B走同步方法，如果仍旧发生同步现象，则代表同步方法中的锁和测试中同步代码块中的锁一致。
-@author Joe*/
+ * 测试同步方法的锁的类型，我们让线程A走同步代码块，让线程B走同步方法，如果仍旧发生同步现象，则代表同步方法中的锁和测试中同步代码块中的锁一致。
+ *
+ * @author Joe
+ */
 public class LockTypeTest {
-    public static void main(String[] args) {
-        LockTypeRunnable r = new LockTypeRunnable();
-        Thread t1 = new Thread(r);
-        Thread t2 = new Thread(r);
-        t1.setName("t1");
-        t2.setName("t2");
-        t1.start();
-        t2.start();
-    }
-}
 
-/**@author Joe*/
-class LockTypeRunnable implements Runnable {
+    private static class LockTypeDemoA implements Runnable {
 
-    private Integer tickets = 0;
+        private int ticketNo;
 
-    @Override
-    public void run() {
-        String t1 = "t1";
-        while (true) {
-            try {
-                Thread.sleep(1000);
-                if (Thread.currentThread().getName().equals(t1)) {
-                    // 同步方法
-                    sell();
+        @SneakyThrows
+        @Override
+        public void run() {
+            String threadA = "threadA";
+            while (true) {
+                TimeUnit.SECONDS.sleep(1L);
+                if (Thread.currentThread().getName().equals(threadA)) {
+                    sellTicket();
                 } else {
-                    // 同步代码块
                     synchronized (this) {
-                        int max = 100;
-                        if (tickets < max) {
-                            System.out.println(Thread.currentThread().getName() + "卖了第" + (++tickets) + "张票");
+                        int maxNo = 100;
+                        if (ticketNo < maxNo) {
+                            ticketNo++;
+                            String threadName = Thread.currentThread().getName();
+                            System.out.println(threadName + "卖票: " + ticketNo);
                         }
                     }
                 }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            }
+        }
+
+        private synchronized void sellTicket() {
+            int maxNo = 100;
+            if (ticketNo < maxNo) {
+                ticketNo++;
+                String threadName = Thread.currentThread().getName();
+                System.out.println(threadName + "卖票: " + ticketNo);
             }
         }
     }
 
-    private synchronized void sell() {
-        int max = 100;
-        if (tickets < max) {
-            System.out.println(Thread.currentThread().getName() + "卖了第" + (++tickets) + "张票");
+
+    private static class LockTypeDemoB implements Runnable {
+
+        private static int ticketNo;
+
+        @SneakyThrows
+        @Override
+        public void run() {
+            String threadA = "threadA";
+            while (true) {
+                TimeUnit.SECONDS.sleep(1L);
+                if (Thread.currentThread().getName().equals(threadA)) {
+                    sellTicket();
+                } else {
+                    synchronized (new Object()) {
+                        int maxNo = 100;
+                        if (ticketNo < maxNo) {
+                            ticketNo++;
+                            String threadName = Thread.currentThread().getName();
+                            System.out.println(threadName + "卖票: " + ticketNo);
+                        }
+                    }
+                }
+            }
+        }
+
+        private static synchronized void sellTicket() {
+            int maxNo = 100;
+            if (ticketNo < maxNo) {
+                ticketNo++;
+                String threadName = Thread.currentThread().getName();
+                System.out.println(threadName + "卖票: " + ticketNo);
+            }
         }
     }
+
+    @Test
+    public void memberMethodLockType() {
+        Runnable runnable = new LockTypeDemoA();
+        new Thread(runnable, "theadA").start();
+        new Thread(runnable, "theadB").start();
+    }
+
+    @Test
+    public void staticMethodLockType() {
+        Runnable runnable = new LockTypeDemoB();
+        new Thread(runnable, "theadA").start();
+        new Thread(runnable, "theadB").start();
+    }
+
+    @SneakyThrows
+    @After
+    public void after() {
+        System.out.println(System.in.read());
+    }
 }
+
+
