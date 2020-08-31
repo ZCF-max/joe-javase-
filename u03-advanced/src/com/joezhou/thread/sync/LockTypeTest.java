@@ -22,7 +22,6 @@ public class LockTypeTest {
         public void run() {
             String threadA = "threadA";
             while (true) {
-                TimeUnit.SECONDS.sleep(1L);
                 if (Thread.currentThread().getName().equals(threadA)) {
                     sellTicket();
                 } else {
@@ -30,6 +29,7 @@ public class LockTypeTest {
                         int maxNo = 100;
                         if (ticketNo < maxNo) {
                             ticketNo++;
+                            TimeUnit.SECONDS.sleep(1L);
                             String threadName = Thread.currentThread().getName();
                             System.out.println(threadName + "卖票: " + ticketNo);
                         }
@@ -38,16 +38,17 @@ public class LockTypeTest {
             }
         }
 
+        @SneakyThrows
         private synchronized void sellTicket() {
             int maxNo = 100;
             if (ticketNo < maxNo) {
                 ticketNo++;
+                TimeUnit.SECONDS.sleep(1L);
                 String threadName = Thread.currentThread().getName();
                 System.out.println(threadName + "卖票: " + ticketNo);
             }
         }
     }
-
 
     private static class LockTypeDemoB implements Runnable {
 
@@ -58,14 +59,14 @@ public class LockTypeTest {
         public void run() {
             String threadA = "threadA";
             while (true) {
-                TimeUnit.SECONDS.sleep(1L);
                 if (Thread.currentThread().getName().equals(threadA)) {
                     sellTicket();
                 } else {
-                    synchronized (new Object()) {
+                    synchronized (this) {
                         int maxNo = 100;
                         if (ticketNo < maxNo) {
                             ticketNo++;
+                            TimeUnit.SECONDS.sleep(1L);
                             String threadName = Thread.currentThread().getName();
                             System.out.println(threadName + "卖票: " + ticketNo);
                         }
@@ -74,10 +75,12 @@ public class LockTypeTest {
             }
         }
 
+        @SneakyThrows
         private static synchronized void sellTicket() {
             int maxNo = 100;
             if (ticketNo < maxNo) {
                 ticketNo++;
+                TimeUnit.SECONDS.sleep(1L);
                 String threadName = Thread.currentThread().getName();
                 System.out.println(threadName + "卖票: " + ticketNo);
             }
@@ -87,15 +90,15 @@ public class LockTypeTest {
     @Test
     public void memberMethodLockType() {
         Runnable runnable = new LockTypeDemoA();
-        new Thread(runnable, "theadA").start();
-        new Thread(runnable, "theadB").start();
+        new Thread(runnable, "threadA").start();
+        new Thread(runnable, "threadB").start();
     }
 
     @Test
     public void staticMethodLockType() {
         Runnable runnable = new LockTypeDemoB();
-        new Thread(runnable, "theadA").start();
-        new Thread(runnable, "theadB").start();
+        new Thread(runnable, "threadA").start();
+        new Thread(runnable, "threadB").start();
     }
 
     @SneakyThrows
@@ -104,5 +107,7 @@ public class LockTypeTest {
         System.out.println(System.in.read());
     }
 }
+
+
 
 
