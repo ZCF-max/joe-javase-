@@ -41,7 +41,7 @@ public class BlockQueueTest {
 
     @Test
     public void linkedBlockingDeque() throws IOException {
-        // BlockingQueue天生就是生产消费者模型，且无边界，存多少都可以
+        // BlockingQueue天生就是生产消费者模型，最大不能超过int最大值，存多少都可以
         BlockingQueue<String> list = new LinkedBlockingQueue<>();
         new Thread(() -> {
             try {
