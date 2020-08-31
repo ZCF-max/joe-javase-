@@ -7,12 +7,16 @@ import org.junit.Test;
  */
 public class DclSingletonTest {
     private static class DclSingleton {
-        private volatile static DclSingleton singleton = null;
+        /**
+         * why use volatile?
+         */
+        private volatile static DclSingleton singleton;
 
         private DclSingleton() {
         }
 
         public static DclSingleton getInstance() {
+            // for improve efficiency
             if (singleton == null) {
                 synchronized (DclSingleton.class) {
                     if (singleton == null) {
@@ -26,8 +30,8 @@ public class DclSingletonTest {
 
     @Test
     public void dclSingleton() {
-        for (int i = 0; i < 10; i++) {
-            new Thread(()->{
+        for (int i = 0, j = 10; i < j; i++) {
+            new Thread(() -> {
                 System.out.println(DclSingleton.getInstance());
             }).start();
         }
