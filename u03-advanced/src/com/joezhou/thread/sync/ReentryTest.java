@@ -7,20 +7,18 @@ import org.junit.Test;
  */
 public class ReentryTest {
 
-
-    private synchronized void methodB() {
-        System.out.println("methodB()...");
+    private synchronized void methodA() {
+        System.out.println("methodA...");
+        // Found to be the same thread, allowing reentry
+        methodB();
     }
 
-    private synchronized void methodA() {
-        System.out.println("methodA()...");
-        // 调用methodB时，发现是同一线程，允许重入
-        methodB();
+    private synchronized void methodB() {
+        System.out.println("methodB...");
     }
 
     @Test
     public void reentry() {
-            // 主线程调用methodA()
         new ReentryTest().methodA();
     }
 }

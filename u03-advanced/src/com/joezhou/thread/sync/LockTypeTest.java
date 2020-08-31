@@ -60,7 +60,7 @@ public class LockTypeTest {
                 if (Thread.currentThread().getName().equals(threadA)) {
                     sellTicket();
                 } else {
-                    synchronized (this) {
+                    synchronized (LockTypeDemoB.class) {
                         int maxNo = 100;
                         if (ticketNo < maxNo) {
                             ticketNo++;
