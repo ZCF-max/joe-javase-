@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * @author JoeZhou
  */
-public class AtomicStartTest {
+public class AtomicOperationTest {
 
     private int num;
     private AtomicInteger atomicNum = new AtomicInteger(0);
