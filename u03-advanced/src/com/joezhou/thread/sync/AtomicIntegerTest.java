@@ -22,6 +22,6 @@ public class AtomicIntegerTest {
                     return (left - 1) * (right - 9) / 3;
                 }
         );
-        System.out.println("当前值*5后：" + result);
+        System.out.println("当前值计算后：" + result);
     }
 }
