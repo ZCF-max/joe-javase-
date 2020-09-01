@@ -31,6 +31,7 @@ public class ThreadLocalTest {
         new Thread(() -> {
             try {
                 TimeUnit.SECONDS.sleep(2L);
+                // get null
                 System.out.println("get: " + threadLocal.get());
                 threadLocal.remove();
             } catch (InterruptedException e) {
