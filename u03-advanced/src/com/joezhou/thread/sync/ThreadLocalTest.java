@@ -11,7 +11,8 @@ import java.util.concurrent.TimeUnit;
  */
 public class ThreadLocalTest {
 
-    private static class Person { }
+    private static class Person {
+    }
 
     private ThreadLocal<Person> threadLocal = new ThreadLocal<>();
 
@@ -33,6 +34,7 @@ public class ThreadLocalTest {
                 TimeUnit.SECONDS.sleep(2L);
                 // get null
                 System.out.println("get: " + threadLocal.get());
+                // prevent memory leaks
                 threadLocal.remove();
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -42,7 +44,7 @@ public class ThreadLocalTest {
 
     @SneakyThrows
     @After
-    public void after(){
+    public void after() {
         System.out.println(System.in.read());
     }
 }
