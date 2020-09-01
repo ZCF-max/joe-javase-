@@ -22,6 +22,7 @@ public class LockUpgradeTest {
         obj = new Object();
         // 000001(01): anonymous biased lock, and thread-recorded is null
         System.out.println(ClassLayout.parseInstance(obj).toPrintable());
+
         synchronized (obj){
             // 00000(101): non-anonymous biased lock, and thread-recorded is main thread
             System.out.println(ClassLayout.parseInstance(obj).toPrintable());
