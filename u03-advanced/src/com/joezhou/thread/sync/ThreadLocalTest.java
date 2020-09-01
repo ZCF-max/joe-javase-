@@ -1,23 +1,28 @@
 package com.joezhou.thread.sync;
 
+import lombok.SneakyThrows;
+import org.junit.After;
+import org.junit.Test;
+
 import java.util.concurrent.TimeUnit;
 
 /**
  * @author JoeZhou
  */
 public class ThreadLocalTest {
-    private static class Person {
-        private String name;
-    }
-    private static ThreadLocal<Person> personThreadLocal = new ThreadLocal<>();
 
-    public static void main(String[] args) throws InterruptedException {
+    private static class Person { }
+
+    private ThreadLocal<Person> threadLocal = new ThreadLocal<>();
+
+    @Test
+    public void threadLocal() {
 
         new Thread(() -> {
             try {
                 TimeUnit.SECONDS.sleep(1L);
-                personThreadLocal.set(new Person());
-                System.out.println("1秒钟后Person设置完成...");
+                threadLocal.set(new Person());
+                System.out.println("set: over");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -26,11 +31,17 @@ public class ThreadLocalTest {
         new Thread(() -> {
             try {
                 TimeUnit.SECONDS.sleep(2L);
-                System.out.println(personThreadLocal.get() == null ? "2秒钟后获取失败.." : "2秒钟后获取成功");
-                personThreadLocal.remove();
+                System.out.println("get: " + threadLocal.get());
+                threadLocal.remove();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }).start();
+    }
+
+    @SneakyThrows
+    @After
+    public void after(){
+        System.out.println(System.in.read());
     }
 }
