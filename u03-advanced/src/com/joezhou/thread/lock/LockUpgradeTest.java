@@ -23,7 +23,7 @@ public class LockUpgradeTest {
         // 000001(01): anonymous biased lock, and thread-recorded is null
         System.out.println(ClassLayout.parseInstance(obj).toPrintable());
 
-        synchronized (obj){
+        synchronized (obj) {
             // 00000(101): non-anonymous biased lock, and thread-recorded is main thread
             System.out.println(ClassLayout.parseInstance(obj).toPrintable());
         }
@@ -36,32 +36,12 @@ public class LockUpgradeTest {
         // 00000001 => 001: no lock
         System.out.println(ClassLayout.parseInstance(obj).toPrintable());
 
-        synchronized (obj){
+        synchronized (obj) {
             // 11001000(00): self-rotating lock, and thread-recorded is the LR of main thread
             System.out.println(ClassLayout.parseInstance(obj).toPrintable());
         }
     }
 
-    private static class OsLockDemo implements Runnable{
-
-        private final Object obj;
-
-        private OsLockDemo(Object obj) {
-            this.obj = obj;
-        }
-
-        @Override
-        public void run() {
-            synchronized (obj){
-                try {
-                    obj.wait();
-                    System.out.println("notified...");
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
 
     @Test
     public void osLock() throws InterruptedException {
@@ -70,12 +50,32 @@ public class LockUpgradeTest {
         // 00000001 => 001: no lock
         System.out.println(ClassLayout.parseInstance(obj).toPrintable());
 
-        OsLockDemo osLockDemo = new OsLockDemo(obj);
-        Thread thread = new Thread(osLockDemo);
-        thread.start();
+        Thread threadA = new Thread(()->{
+            synchronized (obj) {
+                try {
+                    obj.wait();
+                    System.out.println("notified...");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        threadA.start();
 
-        TimeUnit.SECONDS.sleep(5L);
-        thread.notify();
-        System.out.println(ClassLayout.parseInstance(obj).toPrintable());
+        Thread threadB = new Thread(()->{
+            synchronized (obj) {
+                try {
+                    TimeUnit.SECONDS.sleep(1L);
+                    obj.notify();
+                    System.out.println(ClassLayout.parseInstance(obj).toPrintable());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        threadB.start();
+
+        threadA.join();
+        threadB.join();
     }
 }
