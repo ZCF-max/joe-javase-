@@ -5,7 +5,6 @@ import lombok.SneakyThrows;
 import org.junit.After;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -187,7 +186,7 @@ public class WaitNotifyTest {
     }
 
     @Test
-    public void oneByOneVersion() throws IOException {
+    public void oneByOneVersion() {
         new Thread(new OneByOneProducer(food)).start();
         new Thread(new OneByOneConsumer(food)).start();
     }
