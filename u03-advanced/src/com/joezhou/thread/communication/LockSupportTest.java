@@ -1,21 +1,23 @@
 package com.joezhou.thread.communication;
 
+import lombok.SneakyThrows;
+import org.junit.After;
+import org.junit.Test;
+
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.LockSupport;
 
 /**
- *
  * @author JoeZhou
  */
 public class LockSupportTest {
-    public static void main(String[] args) {
+
+    @SneakyThrows
+    @Test
+    public void lockSupport() {
         Thread thead = new Thread(() -> {
-            for (int i = 0; i < 10; i++) {
-                try {
-                    TimeUnit.SECONDS.sleep(1L);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+            for (int i = 0, j = 10; i < j; i++) {
+                TimeUnit.SECONDS.sleep(1L);
                 System.out.println(i);
                 if (i == 5) {
                     LockSupport.park();
@@ -31,5 +33,11 @@ public class LockSupportTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    @SneakyThrows
+    @After
+    public void after() {
+        System.out.println(System.in.read());
     }
 }
