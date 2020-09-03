@@ -1,5 +1,7 @@
 package com.joezhou.thread.lock;
 
+import lombok.SneakyThrows;
+import org.junit.After;
 import org.junit.Test;
 
 import java.util.concurrent.TimeUnit;
@@ -17,7 +19,7 @@ public class ReentrantLockTest {
         private void method() {
             lock.lock();
             try {
-                System.out.println("method");
+                System.out.println(Thread.currentThread() + ": over");
             } finally {
                 lock.unlock();
             }
@@ -74,19 +76,25 @@ public class ReentrantLockTest {
     }
 
     @Test
-    public void lock() throws Exception {
+    public void lock() {
         LockDemo lockDemo = new LockDemo();
         new Thread(lockDemo).start();
         new Thread(lockDemo).start();
-        System.out.println(System.in.read());
     }
 
     @Test
     public void tryLock() throws Exception {
         TryLockDemo trylockDemo = new TryLockDemo();
-        new Thread(trylockDemo::methodA,"methodA").start();
+        new Thread(trylockDemo::methodA, "methodA").start();
         TimeUnit.SECONDS.sleep(1L);
-        new Thread(trylockDemo::methodB,"methodA").start();
+        new Thread(trylockDemo::methodB, "methodA").start();
         System.out.println(System.in.read());
     }
+
+    @SneakyThrows
+    @After
+    public void after() {
+        System.out.println(System.in.read());
+    }
+
 }
