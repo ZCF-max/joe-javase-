@@ -10,7 +10,6 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @author JoeZhou
- *
  */
 public class WaitNotifyTest {
 
@@ -34,11 +33,11 @@ public class WaitNotifyTest {
         public void run() {
             while (true) {
                 if (isEnglish) {
-                    food.setName("dan-gao");
-                    food.setType("mi-qi");
-                } else {
                     food.setName("cake");
                     food.setType("mickey");
+                } else {
+                    food.setName("dan-gao");
+                    food.setType("mi-qi");
                 }
                 isEnglish = !isEnglish;
             }
@@ -72,26 +71,19 @@ public class WaitNotifyTest {
             this.food = food;
         }
 
-        @SneakyThrows
         @Override
         public void run() {
             while (true) {
                 // Don't use "synchronized (this)"
                 synchronized (food) {
-                    if(food.isExist()){
-                        food.wait();
-                    }else{
-                        if (isEnglish) {
-                            food.setName("dan-gao");
-                            food.setType("mi-qi");
-                        } else {
-                            food.setName("cake");
-                            food.setType("mickey");
-                        }
-                        isEnglish = !isEnglish;
-                        food.setExist(true);
-                        food.notify();
+                    if (isEnglish) {
+                        food.setName("cake");
+                        food.setType("mickey");
+                    } else {
+                        food.setName("dan-gao");
+                        food.setType("mi-qi");
                     }
+                    isEnglish = !isEnglish;
                 }
             }
         }
@@ -110,14 +102,8 @@ public class WaitNotifyTest {
         public void run() {
             while (true) {
                 synchronized (food) {
-                    if(food.isExist()){
-                        TimeUnit.SECONDS.sleep(1L);
-                        System.out.println(food.getName() + ": " + food.getType());
-                        food.setExist(false);
-                        food.notify();
-                    }else{
-                        food.wait();
-                    }
+                    TimeUnit.MILLISECONDS.sleep(300L);
+                    System.out.println(food.getName() + ": " + food.getType());
                 }
             }
         }
@@ -126,33 +112,30 @@ public class WaitNotifyTest {
     private static class OneByOneProducer implements Runnable {
 
         private final Food food;
-        private boolean flag;
+        private boolean isEnglish;
 
         OneByOneProducer(Food food) {
             this.food = food;
         }
 
+        @SneakyThrows
         @Override
         public void run() {
             while (true) {
                 synchronized (food) {
-                    try {
-                        if (food.isExist()) {
-                            food.wait();
+                    if (food.isExist()) {
+                        food.wait();
+                    } else {
+                        if (isEnglish) {
+                            food.setName("cake");
+                            food.setType("mickey");
                         } else {
-                            if (flag) {
-                                food.setName("cake");
-                                food.setType("Mickey");
-                            } else {
-                                food.setName("dan-gao");
-                                food.setType("mi-qi");
-                            }
-                            flag = !flag;
-                            food.setExist(true);
-                            food.notify();
+                            food.setName("dan-gao");
+                            food.setType("mi-qi");
                         }
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        isEnglish = !isEnglish;
+                        food.setExist(true);
+                        food.notify();
                     }
                 }
             }
@@ -191,29 +174,22 @@ public class WaitNotifyTest {
 
     private Food food = new Food();
 
-    @SneakyThrows
     @Test
     public void asynchronousVersion() {
         new Thread(new AsyncProducer(food)).start();
         new Thread(new AsyncConsumer(food)).start();
     }
 
-    @SneakyThrows
     @Test
     public void synchronizedVersion() {
         new Thread(new SyncProducer(food)).start();
         new Thread(new SyncConsumer(food)).start();
     }
 
-    /**
-     * Production and consumption are synchronized,
-     * and Produce one, consume one, Produce one, consume one...
-     */
     @Test
     public void oneByOneVersion() throws IOException {
         new Thread(new OneByOneProducer(food)).start();
         new Thread(new OneByOneConsumer(food)).start();
-        System.out.println(System.in.read());
     }
 
     @SneakyThrows
@@ -221,7 +197,6 @@ public class WaitNotifyTest {
     public void after() {
         System.out.println(System.in.read());
     }
-
 }
 
 
