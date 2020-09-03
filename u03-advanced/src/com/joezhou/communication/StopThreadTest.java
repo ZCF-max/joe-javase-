@@ -2,6 +2,7 @@ package com.joezhou.communication;
 
 import lombok.Data;
 import lombok.SneakyThrows;
+import org.junit.After;
 import org.junit.Test;
 
 import java.util.concurrent.TimeUnit;
@@ -12,14 +13,14 @@ import java.util.concurrent.TimeUnit;
 public class StopThreadTest {
 
     @Data
-    private static class NormalThread implements Runnable {
+    private static class NormalThreadDemo implements Runnable {
 
-        private boolean flag;
+        private boolean isStop;
 
         @SneakyThrows
         @Override
         public synchronized void run() {
-            while (!flag) {
+            while (!isStop) {
                 TimeUnit.SECONDS.sleep(1L);
                 System.out.println("thread run...");
             }
@@ -28,18 +29,18 @@ public class StopThreadTest {
     }
 
     @Data
-    private static class SuspendedThread implements Runnable {
+    private static class SuspendedThreadDemo implements Runnable {
 
-        private boolean flag;
+        private boolean isStop;
 
         @SneakyThrows
         @Override
         public synchronized void run() {
-            while (!flag) {
+            while (!isStop) {
                 try {
                     wait();
                 } catch (InterruptedException e) {
-                    flag = true;
+                    isStop = true;
                     e.printStackTrace();
                     System.out.println("thread over...");
                 }
@@ -50,21 +51,25 @@ public class StopThreadTest {
     @SneakyThrows
     @Test
     public void stopNormalThread() {
-        NormalThread normalThread = new NormalThread();
-        new Thread(normalThread).start();
+        NormalThreadDemo normalThreadDemo = new NormalThreadDemo();
+        new Thread(normalThreadDemo).start();
         TimeUnit.SECONDS.sleep(5L);
-        normalThread.setFlag(true);
-        System.out.println(System.in.read());
+        normalThreadDemo.setStop(true);
     }
 
     @SneakyThrows
     @Test
     public void stopSuspendedThread() {
-        SuspendedThread suspendedThread = new SuspendedThread();
-        Thread thread = new Thread(suspendedThread);
+        SuspendedThreadDemo suspendedThreadDemo = new SuspendedThreadDemo();
+        Thread thread = new Thread(suspendedThreadDemo);
         thread.start();
         TimeUnit.SECONDS.sleep(5L);
         thread.interrupt();
+    }
+
+    @SneakyThrows
+    @After
+    public void after() {
         System.out.println(System.in.read());
     }
 }
