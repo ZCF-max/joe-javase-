@@ -64,7 +64,7 @@ public class ReentrantLockTest {
             try {
                 // Try to acquire the lock within 3 seconds
                 locked = lock.tryLock(3, TimeUnit.SECONDS);
-                System.out.println(Thread.currentThread() + ": " + locked);
+                System.out.println(Thread.currentThread().getName() + ": " + locked);
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
@@ -85,10 +85,9 @@ public class ReentrantLockTest {
     @Test
     public void tryLock() throws Exception {
         TryLockDemo trylockDemo = new TryLockDemo();
-        new Thread(trylockDemo::methodA, "methodA").start();
+        new Thread(trylockDemo::methodA, "threadA").start();
         TimeUnit.SECONDS.sleep(1L);
-        new Thread(trylockDemo::methodB, "methodA").start();
-        System.out.println(System.in.read());
+        new Thread(trylockDemo::methodB, "threadB").start();
     }
 
     @SneakyThrows
@@ -96,5 +95,4 @@ public class ReentrantLockTest {
     public void after() {
         System.out.println(System.in.read());
     }
-
 }
