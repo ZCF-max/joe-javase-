@@ -1,6 +1,8 @@
 package com.joezhou.communication;
 
 import lombok.Data;
+import lombok.SneakyThrows;
+import org.junit.After;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -8,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @author JoeZhou
+ *
  */
 public class WaitNotifyTest {
 
@@ -21,7 +24,7 @@ public class WaitNotifyTest {
     private static class AsyncProducer implements Runnable {
 
         private final Food food;
-        private boolean flag;
+        private boolean isEnglish;
 
         AsyncProducer(Food food) {
             this.food = food;
@@ -30,14 +33,14 @@ public class WaitNotifyTest {
         @Override
         public void run() {
             while (true) {
-                if (flag) {
-                    food.setName("cake");
-                    food.setType("Mickey");
-                } else {
+                if (isEnglish) {
                     food.setName("dan-gao");
                     food.setType("mi-qi");
+                } else {
+                    food.setName("cake");
+                    food.setType("mickey");
                 }
-                flag = !flag;
+                isEnglish = !isEnglish;
             }
         }
     }
@@ -50,15 +53,12 @@ public class WaitNotifyTest {
             this.food = food;
         }
 
+        @SneakyThrows
         @Override
         public void run() {
             while (true) {
-                try {
-                    TimeUnit.SECONDS.sleep(1L);
-                    System.out.print(food.getName() + ": " + food.getType() + "\n");
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                TimeUnit.SECONDS.sleep(1L);
+                System.out.println(food.getName() + ": " + food.getType());
             }
         }
     }
@@ -66,27 +66,32 @@ public class WaitNotifyTest {
     private static class SyncProducer implements Runnable {
 
         private final Food food;
-        private boolean flag;
+        private boolean isEnglish;
 
         SyncProducer(Food food) {
             this.food = food;
         }
 
+        @SneakyThrows
         @Override
         public void run() {
             while (true) {
                 // Don't use "synchronized (this)"
                 synchronized (food) {
-                    if (flag) {
-                        food.setName("cake");
-                        food.setType("Mickey");
-                    } else {
-                        food.setName("dan-gao");
-                        food.setType("mi-qi");
+                    if(food.isExist()){
+                        food.wait();
+                    }else{
+                        if (isEnglish) {
+                            food.setName("dan-gao");
+                            food.setType("mi-qi");
+                        } else {
+                            food.setName("cake");
+                            food.setType("mickey");
+                        }
+                        isEnglish = !isEnglish;
+                        food.setExist(true);
+                        food.notify();
                     }
-                    flag = !flag;
-                    food.setExist(true);
-                    food.notify();
                 }
             }
         }
@@ -100,18 +105,20 @@ public class WaitNotifyTest {
             this.food = food;
         }
 
+        @SneakyThrows
         @Override
         public void run() {
             while (true) {
                 synchronized (food) {
-                    try {
+                    if(food.isExist()){
                         TimeUnit.SECONDS.sleep(1L);
-                        System.out.print(food.getName() + ": " + food.getType() + "\n");
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        System.out.println(food.getName() + ": " + food.getType());
+                        food.setExist(false);
+                        food.notify();
+                    }else{
+                        food.wait();
                     }
                 }
-
             }
         }
     }
@@ -184,25 +191,18 @@ public class WaitNotifyTest {
 
     private Food food = new Food();
 
-    /**
-     * Production and consumption are asynchronous
-     */
+    @SneakyThrows
     @Test
-    public void asynchronousVersion() throws IOException {
+    public void asynchronousVersion() {
         new Thread(new AsyncProducer(food)).start();
         new Thread(new AsyncConsumer(food)).start();
-        System.out.println(System.in.read());
     }
 
-
-    /**
-     * Production and consumption are synchronized
-     */
+    @SneakyThrows
     @Test
-    public void synchronizedVersion() throws IOException {
+    public void synchronizedVersion() {
         new Thread(new SyncProducer(food)).start();
         new Thread(new SyncConsumer(food)).start();
-        System.out.println(System.in.read());
     }
 
     /**
@@ -215,6 +215,13 @@ public class WaitNotifyTest {
         new Thread(new OneByOneConsumer(food)).start();
         System.out.println(System.in.read());
     }
+
+    @SneakyThrows
+    @After
+    public void after() {
+        System.out.println(System.in.read());
+    }
+
 }
 
 
