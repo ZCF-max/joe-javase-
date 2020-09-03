@@ -1,6 +1,7 @@
-package com.joezhou.communication;
+package com.joezhou.thread.communication;
 
 import lombok.SneakyThrows;
+import org.junit.After;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -21,13 +22,14 @@ public class ConditionTest {
         private Condition producer = lock.newCondition();
         private Condition consumer = lock.newCondition();
 
-        public void put(String str) {
+        public void put(String data) {
+            int max = 10;
             lock.lock();
             try {
-                while (list.size() == 10) {
+                while (list.size() == max) {
                     producer.await();
                 }
-                list.add(str);
+                list.add(data);
                 consumer.signalAll();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -59,24 +61,28 @@ public class ConditionTest {
     public void condition() {
         ConditionDemo conditionDemo = new ConditionDemo();
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0, j = 10; i < j; i++) {
             new Thread(() -> {
-                for (int m = 0; m < 5; m++) {
+                for (int m = 0, n = 5; m < n; m++) {
                     System.out.println(Thread.currentThread().getName() + " got: " + conditionDemo.get());
                 }
-            }, "consumer" + i).start();
+            }, "consumer-" + i).start();
         }
 
         TimeUnit.SECONDS.sleep(2L);
 
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0, j = 2; i < j; i++) {
             new Thread(() -> {
-                for (int m = 0; m < 25; m++) {
+                for (int m = 0, n = 25; m < n; m++) {
                     conditionDemo.put(Thread.currentThread().getName() + ": " + m);
                 }
-            }, "producer" + i).start();
+            }, "producer-" + i).start();
         }
+    }
 
+    @SneakyThrows
+    @After
+    public void after() {
         System.out.println(System.in.read());
     }
 

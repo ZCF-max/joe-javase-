@@ -1,4 +1,4 @@
-package com.joezhou.communication;
+package com.joezhou.thread.communication;
 
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;

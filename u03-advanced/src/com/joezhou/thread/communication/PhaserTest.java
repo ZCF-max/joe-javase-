@@ -1,4 +1,4 @@
-package com.joezhou.communication;
+package com.joezhou.thread.communication;
 
 import org.junit.Before;
 import org.junit.Test;
