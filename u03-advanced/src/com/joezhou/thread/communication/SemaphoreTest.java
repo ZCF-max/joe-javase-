@@ -1,25 +1,27 @@
 package com.joezhou.thread.communication;
 
+import lombok.SneakyThrows;
+import org.junit.After;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author JoeZhou
  */
 public class SemaphoreTest {
 
-    private Semaphore semaphore = new Semaphore(2);
-
     @Test
     public void semaphore() throws IOException {
+        Semaphore semaphore = new Semaphore(2);
         for (int i = 0, j = 10; i < j; i++) {
             new Thread(() -> {
                 try {
                     semaphore.acquire();
                     System.out.println(Thread.currentThread().getName() + " start...");
-                    Thread.sleep(5000L);
+                    TimeUnit.SECONDS.sleep(5L);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {
@@ -27,6 +29,11 @@ public class SemaphoreTest {
                 }
             }).start();
         }
+    }
+
+    @SneakyThrows
+    @After
+    public void after() {
         System.out.println(System.in.read());
     }
 
