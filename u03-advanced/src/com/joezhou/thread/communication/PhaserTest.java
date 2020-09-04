@@ -1,9 +1,10 @@
 package com.joezhou.thread.communication;
 
+import lombok.SneakyThrows;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.concurrent.Phaser;
 import java.util.concurrent.TimeUnit;
 
@@ -44,13 +45,15 @@ public class PhaserTest {
             this.heroLevel = heroLevel;
         }
 
-        private void roundOne() throws InterruptedException {
+        @SneakyThrows
+        private void roundOne() {
             TimeUnit.SECONDS.sleep(1L);
             System.out.println(Thread.currentThread().getName() + " 通过第1关...");
             phaser.arriveAndAwaitAdvance();
         }
 
-        private void roundTwo() throws InterruptedException {
+        @SneakyThrows
+        private void roundTwo() {
             if (heroLevel > 2) {
                 TimeUnit.SECONDS.sleep(1L);
                 System.out.println(Thread.currentThread().getName() + " 通过第2关...");
@@ -58,7 +61,8 @@ public class PhaserTest {
             }
         }
 
-        private void roundThree() throws InterruptedException {
+        @SneakyThrows
+        private void roundThree() {
             if (heroLevel > 4) {
                 TimeUnit.SECONDS.sleep(1L);
                 System.out.println(Thread.currentThread().getName() + " 通过第3关...");
@@ -69,25 +73,26 @@ public class PhaserTest {
 
         @Override
         public void run() {
-            try {
-                roundOne();
-                roundTwo();
-                roundThree();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            roundOne();
+            roundTwo();
+            roundThree();
         }
     }
 
     @Test
-    public void phaser() throws IOException {
+    public void phaser() {
         phaser.bulkRegister(6);
-        new Thread(new Hero(1), "thread1").start();
-        new Thread(new Hero(2), "thread2").start();
-        new Thread(new Hero(3), "thread3").start();
-        new Thread(new Hero(4), "thread4").start();
-        new Thread(new Hero(5), "thread5").start();
-        new Thread(new Hero(6), "thread6").start();
+        new Thread(new Hero(1), "thread-1").start();
+        new Thread(new Hero(2), "thread-2").start();
+        new Thread(new Hero(3), "thread-3").start();
+        new Thread(new Hero(4), "thread-4").start();
+        new Thread(new Hero(5), "thread-5").start();
+        new Thread(new Hero(6), "thread-6").start();
+    }
+
+    @SneakyThrows
+    @After
+    public void after() {
         System.out.println(System.in.read());
     }
 }
