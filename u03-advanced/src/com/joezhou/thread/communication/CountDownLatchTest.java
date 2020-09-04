@@ -1,29 +1,36 @@
 package com.joezhou.thread.communication;
 
+import lombok.SneakyThrows;
+import org.junit.After;
+import org.junit.Test;
+
+import java.util.Random;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author JoeZhou
  */
 public class CountDownLatchTest {
 
-    public static void main(String[] args) {
+    @Test
+    public void countDownLatch() {
         CountDownLatch countDownLatch = new CountDownLatch(8);
+
         new Thread(() -> {
             try {
                 countDownLatch.await();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            System.out.println("800米比赛结束，准备清空跑道并继续跨栏比赛");
+            System.out.println("competition is over...");
         }).start();
 
         for (int i = 0, j = 8; i < j; i++) {
-            int finalI = i;
             new Thread(() -> {
                 try {
-                    Thread.sleep(finalI * 1000L);
-                    System.out.println(Thread.currentThread().getName() + "到达终点");
+                    TimeUnit.MILLISECONDS.sleep(new Random().nextInt(1000));
+                    System.out.println(Thread.currentThread().getName() + ": reach destination...");
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {
@@ -31,5 +38,11 @@ public class CountDownLatchTest {
                 }
             }).start();
         }
+    }
+
+    @SneakyThrows
+    @After
+    public void after() {
+        System.out.println(System.in.read());
     }
 }
