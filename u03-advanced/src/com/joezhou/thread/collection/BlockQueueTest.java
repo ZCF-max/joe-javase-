@@ -3,6 +3,7 @@ package com.joezhou.thread.collection;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Queue;
 import java.util.Random;
 import java.util.concurrent.*;
 
@@ -38,6 +39,13 @@ public class BlockQueueTest {
         }
     }
 
+    @Test
+    public void concurrentLinkedQueue() {
+        // CAS，高并发时效率比较高。
+        Queue<String> queue = new ConcurrentLinkedQueue<>();
+        queue.add("赵四");
+        System.out.println(queue.poll());
+    }
 
     @Test
     public void linkedBlockingDeque() throws IOException {

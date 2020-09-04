@@ -2,8 +2,10 @@ package com.joezhou.thread.collection;
 
 import org.junit.Test;
 
-import java.util.*;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Vector;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -23,14 +25,6 @@ public class SynchronizedListTest {
         List<String> list = Collections.synchronizedList(new ArrayList<>());
         list.add("赵四");
         System.out.println(list.get(0));
-    }
-
-    @Test
-    public void concurrentLinkedQueue() {
-        // CAS，高并发时效率比较高。
-        Queue<String> queue = new ConcurrentLinkedQueue<>();
-        queue.add("赵四");
-        System.out.println(queue.poll());
     }
 
     @Test
