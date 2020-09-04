@@ -4,7 +4,6 @@ import lombok.SneakyThrows;
 import org.junit.After;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
@@ -14,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 public class SemaphoreTest {
 
     @Test
-    public void semaphore() throws IOException {
+    public void semaphore() {
         Semaphore semaphore = new Semaphore(2);
         for (int i = 0, j = 10; i < j; i++) {
             new Thread(() -> {
@@ -36,5 +35,4 @@ public class SemaphoreTest {
     public void after() {
         System.out.println(System.in.read());
     }
-
 }
