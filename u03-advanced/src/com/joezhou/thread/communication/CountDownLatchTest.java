@@ -5,6 +5,7 @@ import org.junit.After;
 import org.junit.Test;
 
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author JoeZhou
@@ -25,11 +26,16 @@ public class CountDownLatchTest {
         }).start();
 
         for (int i = 0, j = 8; i < j; i++) {
+            long sleepTime = i;
             new Thread(() -> {
-                synchronized (this) {
+                try {
+                    TimeUnit.SECONDS.sleep(sleepTime);
                     System.out.println(Thread.currentThread().getName()
                             + ": reach and current count is "
                             + countDownLatch.getCount());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
                     countDownLatch.countDown();
                 }
             }).start();
