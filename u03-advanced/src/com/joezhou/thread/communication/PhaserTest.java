@@ -20,18 +20,21 @@ public class PhaserTest {
         phaser = new Phaser() {
             @Override
             protected boolean onAdvance(int phase, int registeredParties) {
+                final int levelOne = 1;
+                final int levelTwo = 2;
                 if (phase == 0) {
-                    System.out.println(">> 共计" + registeredParties + "人通过第1关\n");
+                    System.out.println(registeredParties + " hero ready...\n");
                     return false;
                 }
-                if (phase == 1) {
-                    System.out.println(">> 共计" + registeredParties + "人通过第2关\n");
+                if (phase == levelOne) {
+                    System.out.println(registeredParties + " hero passed level one...\n");
                     return false;
                 }
-                if (phase == 2) {
-                    System.out.println(">> 共计" + registeredParties + "人通过第3关\n");
+                if (phase == levelTwo) {
+                    System.out.println(registeredParties + " hero passed level two...\n");
                     return false;
                 }
+                System.out.println("over...");
                 return true;
             }
         };
@@ -46,48 +49,50 @@ public class PhaserTest {
         }
 
         @SneakyThrows
-        private void roundOne() {
+        private void ready() {
             TimeUnit.SECONDS.sleep(1L);
-            System.out.println(Thread.currentThread().getName() + " 通过第1关...");
+            System.out.println(Thread.currentThread().getName() + " ready...");
             phaser.arriveAndAwaitAdvance();
         }
 
         @SneakyThrows
-        private void roundTwo() {
-            if (heroLevel > 2) {
+        private void levelOne() {
+            final int levelLimit = 2;
+            if (heroLevel > levelLimit) {
                 TimeUnit.SECONDS.sleep(1L);
-                System.out.println(Thread.currentThread().getName() + " 通过第2关...");
+                System.out.println(Thread.currentThread().getName() + " passed level one...");
                 phaser.arriveAndAwaitAdvance();
             }
         }
 
         @SneakyThrows
-        private void roundThree() {
-            if (heroLevel > 4) {
+        private void levelTwo() {
+            final int levelLimit = 4;
+            if (heroLevel > levelLimit) {
                 TimeUnit.SECONDS.sleep(1L);
-                System.out.println(Thread.currentThread().getName() + " 通过第3关...");
+                System.out.println(Thread.currentThread().getName() + " passed level two...");
                 phaser.arriveAndAwaitAdvance();
             }
+            // Can only be written in the last level
+            System.out.println(Thread.currentThread().getName() + " deregister...");
             phaser.arriveAndDeregister();
         }
 
         @Override
         public void run() {
-            roundOne();
-            roundTwo();
-            roundThree();
+            ready();
+            levelOne();
+            levelTwo();
         }
     }
 
     @Test
     public void phaser() {
-        phaser.bulkRegister(6);
-        new Thread(new Hero(1), "thread-1").start();
-        new Thread(new Hero(2), "thread-2").start();
-        new Thread(new Hero(3), "thread-3").start();
-        new Thread(new Hero(4), "thread-4").start();
-        new Thread(new Hero(5), "thread-5").start();
-        new Thread(new Hero(6), "thread-6").start();
+        final int parties = 6;
+        phaser.bulkRegister(parties);
+        for (int i = 0; i < parties; i++) {
+            new Thread(new Hero(i + 1), "hero-" + i).start();
+        }
     }
 
     @SneakyThrows

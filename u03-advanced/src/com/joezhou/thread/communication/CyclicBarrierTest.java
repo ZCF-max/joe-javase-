@@ -25,7 +25,9 @@ public class CyclicBarrierTest {
             new Thread(() -> {
                 try {
                     TimeUnit.SECONDS.sleep(sleepTime);
-                    System.out.println(Thread.currentThread().getName() + ": ready...");
+                    System.out.println(Thread.currentThread().getName()
+                            + ": ready..."
+                            + cyclicBarrier.getNumberWaiting());
                     cyclicBarrier.await();
                 } catch (BrokenBarrierException | InterruptedException e) {
                     e.printStackTrace();
