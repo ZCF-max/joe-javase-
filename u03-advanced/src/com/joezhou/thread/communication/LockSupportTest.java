@@ -17,8 +17,7 @@ public class LockSupportTest {
     public void lockSupport() {
         Thread thead = new Thread(() -> {
             for (int i = 0, j = 10; i < j; i++) {
-                TimeUnit.SECONDS.sleep(1L);
-                System.out.println(i);
+                System.out.println(Thread.currentThread() + ": " + i);
                 if (i == 5) {
                     LockSupport.park();
                 }
@@ -26,13 +25,9 @@ public class LockSupportTest {
         });
         thead.start();
 
-        try {
-            TimeUnit.SECONDS.sleep(8L);
-            System.out.println("after 8s...");
-            LockSupport.unpark(thead);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        TimeUnit.SECONDS.sleep(8L);
+        System.out.println("after 8s...");
+        LockSupport.unpark(thead);
     }
 
     @SneakyThrows
