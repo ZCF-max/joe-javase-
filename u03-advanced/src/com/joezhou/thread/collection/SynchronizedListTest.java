@@ -31,18 +31,16 @@ public class SynchronizedListTest {
 
     @Test
     public void synchronizedList() {
-        List<String> list = Collections.synchronizedList(new ArrayList<>());
-        list.add("赵四");
+        ArrayList<String> arrayList = new ArrayList<>();
+        List<String> list = Collections.synchronizedList(arrayList);
+        list.add("zhao-si");
         System.out.println(list.get(0));
     }
 
     @Test
     public void copyOnWriteArrayList() {
-        // 写时进行加锁复制，读时不加锁，适用于读线程远远多于写线程的情景
         List<String> list = new CopyOnWriteArrayList<>();
-        list.add("赵四");
+        list.add("zhao-si");
         System.out.println(list.get(0));
     }
-
-
 }
