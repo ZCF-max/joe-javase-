@@ -87,17 +87,20 @@ public class BlockQueueTest {
         System.out.println(list);
     }
 
+    @SneakyThrows
     @Test
-    public void arrayBlockingQueue() throws Exception {
-        // ArrayBlockingQueue必须指定初始容量，且这个容量值永远不变
+    public void arrayBlockingQueue() {
         BlockingQueue<Integer> list = new ArrayBlockingQueue<>(10);
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0, j = 10; i < j; i++) {
             list.put(i);
         }
         System.out.println(list.size());
-        // 程序阻塞在这里，等待消费
+        // blocking and wait for consumer
         list.put(250);
         System.out.println("over...");
+
+
+
     }
 
     @Test
