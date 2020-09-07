@@ -16,27 +16,26 @@ public class BlockQueueTest {
     private static class MyTask implements Delayed {
 
         private String taskName;
-        private Long time;
+        private Long timestamp;
 
-        MyTask(String taskName, Long time) {
+        MyTask(String taskName, Long timestamp) {
             this.taskName = taskName;
-            this.time = time;
+            this.timestamp = timestamp;
         }
 
         @Override
         public long getDelay(TimeUnit unit) {
-            return unit.convert(time - System.currentTimeMillis(), TimeUnit.MILLISECONDS);
+            return unit.convert(timestamp - System.currentTimeMillis(), TimeUnit.MILLISECONDS);
         }
 
         @Override
         public int compareTo(Delayed o) {
-            // (x < y) ? -1 : ((x == y) ? 0 : 1)
-            return Long.compare(this.getDelay(TimeUnit.MILLISECONDS), o.getDelay(TimeUnit.MILLISECONDS));
+            return Long.compare(getDelay(TimeUnit.MILLISECONDS), o.getDelay(TimeUnit.MILLISECONDS));
         }
 
         @Override
         public String toString() {
-            return taskName + ":" + time;
+            return taskName + ": " + timestamp;
         }
     }
 
@@ -95,22 +94,29 @@ public class BlockQueueTest {
             list.put(i);
         }
         System.out.println(list.size());
+
+        new Thread(()->{
+            try {
+                TimeUnit.SECONDS.sleep(3L);
+                System.out.println(list.take());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }).start();
+
         // blocking and wait for consumer
         list.put(250);
         System.out.println("over...");
-
-
-
     }
 
+    @SneakyThrows
     @Test
-    public void delayQueue() throws Exception {
-        // DelayQueue可以按照时间来进行任务调度
+    public void delayQueue() {
         BlockingQueue<MyTask> list = new DelayQueue<>();
         long now = System.currentTimeMillis();
-        list.put(new MyTask("t1", now + 3));
-        list.put(new MyTask("t4", now + 1));
-        list.put(new MyTask("t5", now + 2));
+        list.put(new MyTask("task1", now + 3));
+        list.put(new MyTask("task4", now + 1));
+        list.put(new MyTask("task5", now + 2));
         for (int i = 0, j = list.size(); i < j; i++) {
             System.out.println(list.take());
         }
