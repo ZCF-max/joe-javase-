@@ -48,9 +48,9 @@ public class BlockQueueTest {
     }
 
     @Test
-    public void linkedBlockingDeque() {
-
-        BlockingQueue<Integer> list = new LinkedBlockingDeque<>();
+    public void linkedBlockingQueue() {
+        BlockingQueue<Integer> list = new LinkedBlockingQueue<>(5);
+        System.out.println(list.isEmpty());
         new Thread(() -> {
             try {
                 while (true) {
@@ -75,6 +75,16 @@ public class BlockQueueTest {
                 }
             }, "consumer-" + i).start();
         }
+    }
+
+    @Test
+    public void linkedBlockingDeque() {
+        LinkedBlockingDeque<String> list = new LinkedBlockingDeque<>();
+        list.addFirst("zhao-si");
+        list.addLast("liu-neng");
+        System.out.println(list.peekFirst());
+        System.out.println(list.peekLast());
+        System.out.println(list);
     }
 
     @Test
