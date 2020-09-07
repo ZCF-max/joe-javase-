@@ -1,8 +1,9 @@
 package com.joezhou.thread.collection;
 
+import lombok.SneakyThrows;
+import org.junit.After;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.Queue;
 import java.util.Random;
 import java.util.concurrent.*;
@@ -41,42 +42,39 @@ public class BlockQueueTest {
 
     @Test
     public void concurrentLinkedQueue() {
-        // CAS，高并发时效率比较高。
         Queue<String> queue = new ConcurrentLinkedQueue<>();
-        queue.add("赵四");
+        queue.add("zhao-si");
         System.out.println(queue.poll());
     }
 
     @Test
-    public void linkedBlockingDeque() throws IOException {
-        // BlockingQueue天生就是生产消费者模型，最大不能超过int最大值，存多少都可以
-        BlockingQueue<String> list = new LinkedBlockingQueue<>();
+    public void linkedBlockingDeque() {
+
+        BlockingQueue<Integer> list = new LinkedBlockingDeque<>();
         new Thread(() -> {
             try {
                 while (true) {
-                    // 如果队列满了会阻塞（等待消费）
-                    list.put("" + new Random().nextInt(100));
-                    Thread.sleep(1000L);
+                    TimeUnit.SECONDS.sleep(2L);
+                    int data = new Random().nextInt(100);
+                    list.put(data);
+                    System.out.println("produce: " + data);
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }).start();
+        }, "producer").start();
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0, j = 5; i < j; i++) {
             new Thread(() -> {
                 while (true) {
                     try {
-                        // 如果队列空了会阻塞（等待生产）
                         System.out.println(Thread.currentThread().getName() + " : " + list.take());
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
-            }, "consumer-00" + i).start();
+            }, "consumer-" + i).start();
         }
-
-        System.out.println(System.in.read());
     }
 
     @Test
@@ -93,7 +91,7 @@ public class BlockQueueTest {
     }
 
     @Test
-    public void delayQueue() throws Exception  {
+    public void delayQueue() throws Exception {
         // DelayQueue可以按照时间来进行任务调度
         BlockingQueue<MyTask> list = new DelayQueue<>();
         long now = System.currentTimeMillis();
@@ -151,6 +149,12 @@ public class BlockQueueTest {
             }
         }, "producer").start();
 
+        System.out.println(System.in.read());
+    }
+
+    @SneakyThrows
+    @After
+    public void after() {
         System.out.println(System.in.read());
     }
 
